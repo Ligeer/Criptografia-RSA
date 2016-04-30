@@ -16,7 +16,7 @@ int aleat, i;
  aleat = rand() % 100;
 
  cout<<"Número aleatorio selcionado = "<<aleat<<endl;
-
+ cout<<"oi";
 
 if(isCousin(aleat) == true) {
 cout<<"eh primo";
