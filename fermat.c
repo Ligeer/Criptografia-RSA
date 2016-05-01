@@ -23,11 +23,9 @@ int main(){
     int d;
     int idx = 0;
 
-    r =  pow(31,3);
-    printf("31³: %d \n", r);
-    d = (r%137);
-    printf("l: %d \n", d);
-    idx = fermat(30);
+
+    idx = fermat(13);
+    printf("%i ", idx);
     return 0;
 }
 
@@ -54,6 +52,13 @@ long expModular(long N, long A, long expoente){
 };
 
 
+/**
+int fermat(int number)
+
+utiliza algoritmo de fermat para verificar se um number e primo
+
+se number é primo retorna 1, se nao retorna 0
+*/
 int fermat(int number){
     int r;
     int flagPrimo = 1;
@@ -62,7 +67,6 @@ int fermat(int number){
     while(number % 2 == 0){
         number = number/2;
         vetFatores[i] = 2;
-        printf("recebeu 2");
         i++;
     }
     if(number == 1){
@@ -85,7 +89,6 @@ int fermat(int number){
 
     if(flagPrimo == 1){
         vetFatores[i] = number;
-        printf("acho primo:%d", number);
         i++;
     }
     return i;
@@ -103,12 +106,9 @@ long euclides_ext(long x, long y, long d)
 {
     long r;
     r = mod(b, a);
-
     if (r == 0) {
         return (mod((c / a), (b / a)));   // retorna (c/a) % (b/a)
     }
     return ((euclides_ext(r, a, -c) * b + c) / (mod(a, b)));
 }
 */
-
-
