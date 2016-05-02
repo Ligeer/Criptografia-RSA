@@ -24,7 +24,7 @@ int primalidade(int n){
     int result;
     while(i<=100){ /*Rodando 100 vezes para diminuir em 1/2*100 a chance de erro*/
         a = geraNumeroMax(n-1); /*Gerando numero entre 1 e n-1*/
-        result = expModular(a, b, n); 
+        result = expModular(a, b, n);
         if (result != 1 % n){ /*Verificando inverso multiplicativo*/
             return 0;
         }
@@ -53,7 +53,8 @@ int geraNumeroRandom(){
     return rand();
 };
 
-/*Calculado conforme a aula*/
+/*Calculado conforme a aula
+Formula: a^b mod n  */
 int expModular(int a, int b, int n){
     int z = 0;
     if(b==0){
