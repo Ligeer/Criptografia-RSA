@@ -60,7 +60,7 @@ int expModular(int a, int b, int n){
     if(b==0){
         return 1;
     };
-    z = expModular(a, ceil(b/2), n) % n;
+    z = expModular(a, floor(b/2), n) % n;
     if(b%2 == 0){
         return (z*z) % n;
     }else{
