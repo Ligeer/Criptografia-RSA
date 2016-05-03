@@ -44,7 +44,8 @@ RSA *criptografa(int MsgOriginal){
     msgEmissor = (RSA*) malloc(sizeof(RSA));
     p = geraPrimo();
     q = geraPrimo();
-    if(p==q){
+    /*Sempre que rodo ele da que p = q não sei porque*/
+    if(p == q){
         printf("Flag primos iguais. \n");
     }
     n=p*q;
