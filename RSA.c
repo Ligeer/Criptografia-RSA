@@ -26,6 +26,9 @@ RSA *descriptografa(RSA *msgEmissor);
 int main(){
     RSA *msgEmissor;
     RSA *msgReceptor;
+
+    geraSeed();
+
     msgEmissor = criptografa(98);
     printf("Msg: %d \n", msgEmissor->msg);
     msgReceptor = descriptografa(msgEmissor);
@@ -44,10 +47,7 @@ RSA *criptografa(int MsgOriginal){
     msgEmissor = (RSA*) malloc(sizeof(RSA));
     p = geraPrimo();
     q = geraPrimo();
-    /*Sempre que rodo ele da que p = q não sei porque*/
-    if(p == q){
-        printf("Flag primos iguais. \n");
-    }
+
     n=p*q;
     msgEmissor->n = n;
     totiente = (p-1)*(q-1);
@@ -111,13 +111,15 @@ int geraPrimo(){
     return primo;
 }
 
-int geraNumeroMax(int n){
+void geraSeed() { /* gera uma seed para nova sequencia de numeros aleatorios */
     srand((unsigned)time(NULL));
+}
+
+int geraNumeroMax(int n){
     return rand() % n + 1;
 }
 
 int geraNumeroRandom(){
-    srand((unsigned)time(NULL));
     return rand();
 }
 
