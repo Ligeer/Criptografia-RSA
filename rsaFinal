@@ -46,7 +46,7 @@ int *geraLista() {
 void printLista(int *numPrimo){
     int i;
     i=0;
-    while(i != 255){
+    while(i != 256){ 
         printf("Indice: %d |Num: %d \n", i, numPrimo[i]);
         i++;
     }
