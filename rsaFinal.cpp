@@ -27,9 +27,8 @@ int main() {
     Numprimo n1;
     Numprimo *head;
 
-    head = &n1;
+    head = (Numprimo *) malloc(sizeof(Numprimo));
     head->num = 0; //Responsavel pelo sinal do numero
-    head->prox = NULL;
 
     geraSeed();
     geraLista(head);
@@ -50,7 +49,7 @@ void insereLista (Numprimo *head, int num){
     Numprimo *novo;
     novo = (Numprimo*) malloc(sizeof(Numprimo));
     novo->num = num; //acessa nova e bota o endereço da pessoa1 lá dentro;
-    novo->prox;
+    novo->prox = head->prox;
     head->prox = novo;
     novo->prox->ante = novo;
     novo->ante = head;
@@ -62,7 +61,7 @@ void geraLista(Numprimo *head) {
     i=0;
     sin=0;
     while (i != 10) { // deve ser colocado 256 digitos
-        sin = insereLista(head, geraNumeroMax(9), sin); //GERANDO NUMEROS DE 1-9 E GUARDANDO NA LISTA
+        insereLista(head, geraNumeroMax(9)); //GERANDO NUMEROS DE 1-9 E GUARDANDO NA LISTA
         i++;
     }
 }
