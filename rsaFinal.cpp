@@ -15,6 +15,7 @@ typedef struct numPrimo Numprimo;
 //FUNÇÕES
 int geraNumeroMax(int n);
 Numprimo *geraPrimoGrande();
+Numprimo * criaLista(int valor);
 int primalidade(int n);
 void geraSeed();
 void geraLista(Numprimo *head);
@@ -24,11 +25,8 @@ void printLista(Numprimo *head);
 //*FALTA COMEÇAR IMPLEMENTAR AS OPERAÇÕES
 
 int main() {
-    Numprimo n1;
-    Numprimo *head;
+    Numprimo * head;
 
-    head = (Numprimo *) malloc(sizeof(Numprimo));
-    head->num = 0; //Responsavel pelo sinal do numero
 
     geraSeed();
     geraLista(head);
@@ -45,10 +43,25 @@ void geraSeed() { /* gera uma seed para nova sequencia de numeros aleatorios */
     srand((unsigned)time(NULL));
 }
 
+Numprimo * criaLista(int valor) {
+    Numprimo * head;
+    head = (Numprimo *) malloc(sizeof(Numprimo));
+    head->num = valor;
+    head->prox = NULL;
+    return head;
+}
+
 void insereLista (Numprimo *head, int num){
     Numprimo *novo;
     novo = (Numprimo*) malloc(sizeof(Numprimo));
     novo->num = num; //acessa nova e bota o endereço da pessoa1 lá dentro;
+
+    if(head->prox == NULL) {
+        novo->prox = NULL;
+        head->prox = novo;
+        novo->ante = head;
+        return;
+    }
     novo->prox = head->prox;
     head->prox = novo;
     novo->prox->ante = novo;
@@ -57,9 +70,7 @@ void insereLista (Numprimo *head, int num){
 
 void geraLista(Numprimo *head) {
     int i;
-    int sin;
     i=0;
-    sin=0;
     while (i != 10) { // deve ser colocado 256 digitos
         insereLista(head, geraNumeroMax(9)); //GERANDO NUMEROS DE 1-9 E GUARDANDO NA LISTA
         i++;
@@ -68,7 +79,9 @@ void geraLista(Numprimo *head) {
 
 void printLista(Numprimo *head){
     int i;
-    Numprimo *ini = head->prox;
+    Numprimo *ini;
+
+    ini = head->prox;
     i=0;
     while(ini != NULL){
         printf("Indice: %d |Num: %d \n", i, ini->num);
