@@ -27,6 +27,7 @@ void printLista(Numprimo *head);
 int main() {
     Numprimo * head;
 
+    head = criaLista(0); // 0 indica o sinal do numero
 
     geraSeed();
     geraLista(head);
@@ -47,7 +48,7 @@ Numprimo * criaLista(int valor) {
     Numprimo * head;
     head = (Numprimo *) malloc(sizeof(Numprimo));
     head->num = valor;
-    head->prox = NULL;
+    head->prox = head;
     return head;
 }
 
@@ -56,10 +57,11 @@ void insereLista (Numprimo *head, int num){
     novo = (Numprimo*) malloc(sizeof(Numprimo));
     novo->num = num; //acessa nova e bota o endereço da pessoa1 lá dentro;
 
-    if(head->prox == NULL) {
-        novo->prox = NULL;
+    if(head->prox == head) {
+        novo->prox = head;
         head->prox = novo;
         novo->ante = head;
+        head->ante = novo;
         return;
     }
     novo->prox = head->prox;
@@ -83,7 +85,7 @@ void printLista(Numprimo *head){
 
     ini = head->prox;
     i=0;
-    while(ini != NULL){
+    while(ini != head){
         printf("Indice: %d |Num: %d \n", i, ini->num);
         ini = ini->prox;
         printf("____________\n");
