@@ -34,7 +34,7 @@ int main() {
     geraSeed();
     geraLista(head);
     printLista(head);
-    
+
     return 0;
 }
 
@@ -46,18 +46,14 @@ void geraSeed() { /* gera uma seed para nova sequencia de numeros aleatorios */
     srand((unsigned)time(NULL));
 }
 
-int insereLista (Numprimo *head, int num, int sin){
+void insereLista (Numprimo *head, int num){
     Numprimo *novo;
     novo = (Numprimo*) malloc(sizeof(Numprimo));
     novo->num = num; //acessa nova e bota o endereço da pessoa1 lá dentro;
-    novo->prox = head->prox; //é igual a NULL ESSE PTR_PROX sempre que adicionarmos bem recursivo a parada;
+    novo->prox;
+    head->prox = novo;
+    novo->prox->ante = novo;
     novo->ante = head;
-    head->prox = novo; //ligo o ponteiro prox na celula nova;
-    if (sin == 0) { //ESTA SINALIZANDO SE É O PRIMEIRO ELEMENTO OU NAO
-        head->ante = novo; //entao ele liga o anterior da cabeça ao ultimo elemento da lista
-        sin = 1;
-    }
-    return sin;
 }
 
 void geraLista(Numprimo *head) {
@@ -65,7 +61,7 @@ void geraLista(Numprimo *head) {
     int sin;
     i=0;
     sin=0;
-    while (i != 256) {
+    while (i != 10) { // deve ser colocado 256 digitos
         sin = insereLista(head, geraNumeroMax(9), sin); //GERANDO NUMEROS DE 1-9 E GUARDANDO NA LISTA
         i++;
     }
