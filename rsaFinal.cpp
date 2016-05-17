@@ -46,54 +46,43 @@ int main() {
     return 0;
 }
 
+
 Numprimo *soma(Numprimo *head1, Numprimo *head2) {
     Numprimo *headaux1 = head1->ante;
     Numprimo *headaux2 = head2->ante;
     Numprimo *soma = criaLista(0);
     int total = 0;
     int carry = 0; //ARMAZENA O EXCESSO DA SOMA
-    while (head1 != headaux1 && head2 != headaux2) {
-        if(head1 == headaux1) { //CHEGOU AO FIM NUM 1
-            total = headaux2->num+carry;
-            if (total >= 9) {
-                carry = total - 9;
-                insereLista(soma, 9);
-            }
-            else {
-                carry = 0;
-                insereLista(soma, total);
-            }
-            headaux2 = headaux2->ante;
+    int size1 = 1;
+    int i = 0;
+    while (headaux1 != head1 || headaux2 != head2) {
+        total = headaux1->num+headaux2->num+carry;
+        if (total > 10) { //EXEMPLO 24
+            carry = total/10; // CARRY RECEBE 2
+            total = total%10; // TOTAL RECEBE 4
+            insereLista(soma, total); //INSERE NA LISTA RESULTADO O 4
         }
-        else if(head2 == headaux2) {//CHEGOU AO FIM NUM 2
-            total = headaux1->num+carry;
-            if (total > 9) {
-                carry = total / 10;
-                insereLista(soma, total % 10);
-            }
-            else {
-                carry = 0;
-                insereLista(soma, total);
-            }
-            headaux1 = headaux1->ante;
+        else if(total == 10) { //SE FOR TOTAL 10 PRECISAMOS TRATAR
+            carry = total - 9; //CARRY RECEBE 1
+            total = 0; //TOTAL 0
+            insereLista(soma, total); //INSERE 0 NA SOMA
         }
         else {
-            total = headaux1->num+headaux2->num+carry;
-            if (total > 9) {
-                carry = total / 10;
-                insereLista(soma, total % 10);
-            }
-            else {
-                carry = 0;
-                insereLista(soma, total);
-            }
+            carry = 0; //ZERA O CARRY PORQUE JÁ FOI ADICIONADO NA SOMA E NAO EXCEDEU 10
+            insereLista(soma, total); //INSERE O TOTAL
+        }
+        if (headaux1 != head1) {
             headaux1 = headaux1->ante;
+        }
+        if (headaux2 != head2) {
             headaux2 = headaux2->ante;
         }
+        i++;
     }
     if(carry != 0) {
-            insereLista(soma, carry);
+        insereLista(soma, carry);
     }
+    printf("\n");
     return soma;
 }
 
