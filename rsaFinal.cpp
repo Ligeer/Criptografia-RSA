@@ -22,36 +22,78 @@ void geraSeed();
 void geraLista(Numprimo *head);
 void printLista(Numprimo *head);
 void insereLista(Numprimo *head, int num);
-bool isNegativo(Numprimo * head);
+Numprimo *soma(Numprimo *head1, Numprimo *head2);
 
 //OPERAÇÕES
 //*FALTA COMEÇAR IMPLEMENTAR AS OPERAÇÕES
 
 int main() {
-    Numprimo * head, *head2;
+    Numprimo * head1, *head2;
 
-    head = criaLista(1); // 0 indica o sinal do numero
-    head2 = criaLista(1);
+    head1 = criaLista(0); // 0 indica o sinal do numero
+    head2 = criaLista(0);
 
     geraSeed();
-    geraLista(head);
+    geraLista(head1);
     geraLista(head2);
 
-    printLista(head);
+    printLista(head1);
     printf("\n");
     printLista(head2);
     printf("\n");
-    printLista(subtrai(head, head2));
+
+    printLista(soma(head1, head2));
     return 0;
 }
 
-bool isNegativo(Numprimo * head) {
-    return head->num >= 0 ? true : false;
-}
 
-Numprimo * soma(Numprimo * a, Numprimo * b) {
-    /*colocar funcao  */
-    return NULL;
+Numprimo *soma(Numprimo *head1, Numprimo *head2) {
+    Numprimo *headaux1 = head1->ante;
+    Numprimo *headaux2 = head2->ante;
+    Numprimo *soma = criaLista(0);
+    int total = 0;
+    int carry = 0; //ARMAZENA O EXCESSO DA SOMA
+    while (head1 != headaux1 || head2 != headaux2) {
+        if(head1 == headaux1) { //CHEGOU AO FIM NUM 1
+            total = headaux2->num+carry;
+            if (total >= 9) {
+                carry = total - 9;
+                insereLista(soma, 9);
+            }
+            else {
+                carry = 0;
+                insereLista(soma, total);
+            }
+            headaux2 = headaux2->ante;
+        }
+        else if(head2 == headaux2) {//CHEGOU AO FIM NUM 2
+            total = headaux1->num+carry;
+            if (total >= 9) {
+                carry = total - 9;
+                insereLista(soma, 9);
+            }
+            else {
+                carry = 0;
+                insereLista(soma, total);
+            }
+            headaux1 = headaux1->ante;
+        }
+        else {
+            total = headaux1->num+headaux2->num+carry;
+            if (total >= 9) {
+                carry = total - 9;
+                insereLista(soma, 9);
+            }
+            else {
+                carry = 0;
+                insereLista(soma, total);
+            }
+            headaux1 = headaux1->ante;
+            headaux2 = headaux2->ante;
+        }
+    }
+    printf("\n");
+    return soma;
 }
 
 /* Recebe dois tipos Numprimo e subtrai a - b e retorna */
@@ -138,7 +180,7 @@ void insereLista(Numprimo *head, int num){
 void geraLista(Numprimo *head) {
     int i;
     i=0;
-    while (i != 20) { // deve ser colocado 256 digitos
+    while (i != 2) { // deve ser colocado 256 digitos
         insereLista(head, geraNumeroMax(9)); //GERANDO NUMEROS DE 1-9 E GUARDANDO NA LISTA
         i++;
     }
@@ -157,20 +199,3 @@ void printLista(Numprimo *head){
     }
 }
 
-
-
-int primalidade(int n){
-    int b = n-1;
-    int i = 0;
-    int a = 0;
-    int result;
-    while(i <= 100){ /*Rodando 100 vezes para diminuir em 1/2*100 a chance de erro*/
-        a = geraNumeroMax(n-1); /*Gerando numero entre 1 e n-1*/
-        //result = expModular(a, b, n);
-        if (result != 1 % n){ /*Verificando inverso multiplicativo*/
-            return 0;
-        }
-        i++;
-    }
-    return 1;
-}
