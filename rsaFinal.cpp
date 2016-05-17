@@ -19,7 +19,7 @@ Numprimo * criaLista(int valor);
 Numprimo * subtrai(Numprimo * a, Numprimo * b);
 int primalidade(int n);
 void geraSeed();
-void geraLista(Numprimo *head);
+void geraLista(Numprimo *head, int numeros);
 void printLista(Numprimo *head);
 void insereLista(Numprimo *head, int num);
 Numprimo *soma(Numprimo *head1, Numprimo *head2);
@@ -34,18 +34,17 @@ int main() {
     head2 = criaLista(0);
 
     geraSeed();
-    geraLista(head1);
-    geraLista(head2);
+    geraLista(head1, 5);
+    geraLista(head2, 5);
 
     printLista(head1);
     printf("\n");
     printLista(head2);
     printf("\n");
 
-    printLista(soma(head1, head2));
+    printLista(subtrai(head1, head2));
     return 0;
 }
-
 
 Numprimo *soma(Numprimo *head1, Numprimo *head2) {
     Numprimo *headaux1 = head1->ante;
@@ -53,7 +52,7 @@ Numprimo *soma(Numprimo *head1, Numprimo *head2) {
     Numprimo *soma = criaLista(0);
     int total = 0;
     int carry = 0; //ARMAZENA O EXCESSO DA SOMA
-    while (head1 != headaux1 || head2 != headaux2) {
+    while (head1 != headaux1 && head2 != headaux2) {
         if(head1 == headaux1) { //CHEGOU AO FIM NUM 1
             total = headaux2->num+carry;
             if (total >= 9) {
@@ -68,9 +67,9 @@ Numprimo *soma(Numprimo *head1, Numprimo *head2) {
         }
         else if(head2 == headaux2) {//CHEGOU AO FIM NUM 2
             total = headaux1->num+carry;
-            if (total >= 9) {
-                carry = total - 9;
-                insereLista(soma, 9);
+            if (total > 9) {
+                carry = total / 10;
+                insereLista(soma, total % 10);
             }
             else {
                 carry = 0;
@@ -80,9 +79,9 @@ Numprimo *soma(Numprimo *head1, Numprimo *head2) {
         }
         else {
             total = headaux1->num+headaux2->num+carry;
-            if (total >= 9) {
-                carry = total - 9;
-                insereLista(soma, 9);
+            if (total > 9) {
+                carry = total / 10;
+                insereLista(soma, total % 10);
             }
             else {
                 carry = 0;
@@ -92,7 +91,9 @@ Numprimo *soma(Numprimo *head1, Numprimo *head2) {
             headaux2 = headaux2->ante;
         }
     }
-    printf("\n");
+    if(carry != 0) {
+            insereLista(soma, carry);
+    }
     return soma;
 }
 
@@ -177,10 +178,10 @@ void insereLista(Numprimo *head, int num){
     novo->ante = head;
 }
 
-void geraLista(Numprimo *head) {
+void geraLista(Numprimo *head, int numeros) {
     int i;
     i=0;
-    while (i != 2) { // deve ser colocado 256 digitos
+    while (i != numeros) { // deve ser colocado 256 digitos
         insereLista(head, geraNumeroMax(9)); //GERANDO NUMEROS DE 1-9 E GUARDANDO NA LISTA
         i++;
     }
