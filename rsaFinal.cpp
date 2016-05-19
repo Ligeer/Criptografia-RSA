@@ -141,6 +141,125 @@ int numDigitos(Numprimo * a) {
     return i;
 }
 
+void deslocaEsq(Numprimo *head) {
+    Numprimo *tmp = head->ante;
+    Numprimo *novo = (Numprimo*) malloc(sizeof(Numprimo));
+    novo->num = 0;
+    novo->ante = tmp;
+    tmp->prox = novo;
+    novo->prox = head; //TROCAR SE NÃO FOR CIRCULAR
+}
+
+void deslocaDir(Numprimo *head) {
+    Numprimo *tmp = head->ante;
+    if (tmp->ante == head) {
+        head->ante = NULL;
+        head->prox = NULL;
+        printf("\n **entrei no null");
+    }
+    else {
+        tmp->ante->prox = head;
+        head->ante = tmp->ante;
+    }
+}
+
+Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
+    Numprimo *total;
+    // X = HEAD1 | Y = HEAD2
+    printf("\n Debug 1...");
+    if(head2->prox == NULL) {
+        return criaLista(0);
+    }
+    printf("\n Retirando:%d...", head2->ante->num);
+    deslocaDir(head2); //DIVIDIMOS POR 10
+    total = multiplica(head1, head2);
+    if(impar(head2) == 0) {
+        deslocaEsq(total);//MULTIPLICA POR 10
+            printf("\n Debug 4...");
+    }
+    else {
+        deslocaEsq(total); //DESLOQUEI
+            printf("\n Debug 5...");
+        return soma(head1, total);
+    }
+}
+
+Resultado *divide(Numprimo *head1, Numprimo *head2) {
+    Numprimo *aux1 = head1->ante;
+    Numprimo *aux2 = head2->ante;
+    Numprimo *q;
+    Numprimo *r;
+    Resultado *result;
+
+    printf("\n DBG 1...");
+    if (head1->prox == NULL) {
+        //TRANSFORMANDO Q E R NA REPRESENTACAO DE 0 NOSSA
+        printf("\n DBG 44...");
+        //DEVOLVENDO UM PONTEIRO Q E R QUE SEJAM 0
+        q = criaLista(0);
+        r = criaLista(0);
+
+        result = (Resultado*) malloc(sizeof(Resultado));
+        result->value1 = q;
+        result->value2 = r;
+
+        printf("\n DBG 45...");
+        return result;
+    }
+    /*DEBUGANDO*/
+    printf("\n DBG 2...");
+    //printf("\n");
+   // printLista(head1);
+    //printf("\n");
+   // printLista(head2);
+    /*DEBUGANDO*/
+    printf("\n Sendo retirado:%d", head1->ante->num);
+    deslocaDir(head1); //dividindo por 10
+    aux1 = aux1->ante;
+    result = divide(head1, head2);
+    printf("\n DBG 7...");
+    deslocaEsq(q);
+    deslocaEsq(r);
+    printf("\n DBG 3...");
+    if(impar(head1) == 1) {
+        r->ante->num = r->ante->num+1;
+    }
+    int size1 = numDigitos(r);
+    int size2 = numDigitos(head2);
+        printf("\n DBG 4...");
+    if(maior(r, head2) == r || size1 == size2) {
+        r->ante->num = r->ante->num-1;
+        subtrai(r, head2);
+            printf("\n DBG 5...");
+    }
+    result->value1 = q;
+    result->value2 = r;
+    return result;
+}
+
+Numprimo *copiaNum(Numprimo *head){
+    Numprimo *aux = head->ante;
+    Numprimo *novo = criaLista(0);
+    while(aux != head) {
+        insereLista(novo, aux->num);
+        aux = aux->ante;
+    }
+    return novo;
+}
+
+int impar(Numprimo *head) {
+    Numprimo *copia = copiaNum(head);
+    Numprimo *aux = copia->ante;
+    while(aux != copia){
+        printf("\n %d/2 sobra %d", aux->num, aux->num%2);
+        if(aux->num%2 != 0) {
+            return 1; //RETORNA IMPAR
+        }
+        aux = aux->ante;
+    }
+    return 0; //RETORNA PAR
+}
+
 Numprimo * subtrai(Numprimo * a, Numprimo * b) {
     Numprimo * aux1, * aux2, * empresta, * c;
     int subtracao;
