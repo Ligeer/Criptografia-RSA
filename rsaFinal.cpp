@@ -26,7 +26,11 @@ void pedeEmprestado(Numprimo * a);
 Numprimo * soma(Numprimo *head1, Numprimo *head2);
 Numprimo * maior(Numprimo * a, Numprimo * b);
 Numprimo * subtrai(Numprimo * a, Numprimo * b);
-
+Numprimo * multiplica(Numprimo * a, Numprimo * b);
+Numprimo * copia(Numprimo * a);
+int deslocaEsquerda(Numprimo * a);
+void deslocaDireita(Numprimo * a);
+int ePar(Numprimo * a);
 
 //OPERAÇÕES
 //*FALTA COMEÇAR IMPLEMENTAR AS OPERAÇÕES
@@ -38,30 +42,108 @@ int main() {
     head2 = criaLista(1);
 
     geraSeed();
-    geraLista(head1, 25);
-    geraLista(head2, 30);
-
+    geraLista(head1, 5);
+    geraLista(head2, 1);
 
     printLista(head1);
     printf("\n");
+    //printLista(soma(head1, head2));
+    //printf("\n");
     printLista(head2);
     printf("\n");
 
-    printLista(soma(head1, head2));
-
+    printLista(multiplica(head1, head2));
+    //printLista(soma(head1, head2));
     return 0;
 }
 
-Numprimo *soma(Numprimo *head1, Numprimo *head2) {
+Numprimo * multiplica(Numprimo * a, Numprimo * b) {
+    Numprimo * c, * aux;
+    int resto;
+
+    aux = criaLista(1);
+
+    if(numDigitos(b) == 1 && b->prox->num == 0) {
+        c = criaLista(1);
+        insereLista(c, 0);
+        return c;
+    }
+
+    resto = deslocaEsquerda(b);
+    insereLista(aux, resto);
+    c = multiplica(a, b);
+    printf("\n");
+    printLista(c);
+
+//deve devolver c + (a multiplicação do primeiro parâmetro pelo resto da divisão de y por 10).
+// soma(c, multiplica(a, aux)
+  //  deslocaDireita(c);
+    //printLista(c);
+    return soma(c, multiplica(a, aux));
+}
+
+int ePar(Numprimo * a) {
+    return a->ante->num  % 2 == 0 ? 1 : 0;
+}
+
+// Recebe um Numprimo a e retorna Numprimo igual com outro endereço
+Numprimo * copia(Numprimo * a) {
+
+    Numprimo * nova, * aux;
+
+    aux = a->ante;
+    nova = criaLista(a->num); // cria nova cabeça igual a cabeça de a
+
+    while(aux != a) { // percorre do final até o começo
+        insereLista(a, aux->num);
+        aux = aux->ante;
+    }
+    return aux; // devolve a cabeça do numero copiado
+}
+
+// Desloca um digito para a esquerda do número, divisão inteira por 10
+int deslocaEsquerda(Numprimo * a) {
+    Numprimo * aux;
+    int numero;
+
+    numero = a->ante->num;
+    if(a->prox != a) { // fica  a critério deixar o número 0 ou somente a cabeça para representar um numero vazio
+        aux = a->ante;
+        aux->ante->prox = a;
+        a->ante = aux->ante;
+        free(aux);
+    }
+    if(a->prox == a) {
+        insereLista(a, 0);
+    }
+    return numero;
+}
+
+// Desloca um digito para a direita do número, multiplicação por 10
+void deslocaDireita(Numprimo * a) {
+    if(a->prox->num != 0) { // se o número já é 0 nao adianta tentar colocar outro na frente
+        insereLista(a->ante, 0); // finge que o elemento anterior a cabeça é a cabeça e faz a inserção nela
+    }
+}
+
+Numprimo * soma(Numprimo *head1, Numprimo *head2) {
     Numprimo *headaux1 = head1->ante;
     Numprimo *headaux2 = head2->ante;
-    Numprimo *soma = criaLista(0);
+    Numprimo *soma = criaLista(1);
     int total = 0;
     int carry = 0; //ARMAZENA O EXCESSO DA SOMA
-    int size1 = 1;
     int i = 0;
     while (headaux1 != head1 || headaux2 != head2) {
-        total = headaux1->num+headaux2->num+carry;
+
+        if(headaux1 != head1 && headaux2 != head2) {
+            total = headaux1->num + headaux2->num +carry;
+        } else if (headaux1 == head1) {
+            total = headaux2->num + carry;
+        } else if (headaux2 == head2) {
+            total = headaux1->num + carry;
+        }
+
+
         if (total > 10) { //EXEMPLO 24
             carry = total/10; // CARRY RECEBE 2
             total = total%10; // TOTAL RECEBE 4
@@ -82,7 +164,6 @@ Numprimo *soma(Numprimo *head1, Numprimo *head2) {
         if (headaux2 != head2) {
             headaux2 = headaux2->ante;
         }
-        i++;
     }
     if(carry != 0) {
         insereLista(soma, carry);
@@ -93,7 +174,6 @@ Numprimo *soma(Numprimo *head1, Numprimo *head2) {
 
 /* Recebe dois Numprimos e retorna o endereço do maior */
 Numprimo * maior(Numprimo * a, Numprimo * b) {
-    int x;
     Numprimo * aux1, * aux2;
 
     //tratamento numeros com sinais opostos
@@ -102,6 +182,8 @@ Numprimo * maior(Numprimo * a, Numprimo * b) {
     }
 
     // é maior o que tem mais digitos já que nao armazenamos zeros
+
+    // tratar se ambos forem negativos
     if(numDigitos(a) > numDigitos(b)) {
         return a;
     }
@@ -109,11 +191,10 @@ Numprimo * maior(Numprimo * a, Numprimo * b) {
         return b;
     }
 
-    x = 0;
     aux1 = a->prox;
     aux2 = b->prox;
 
-    while(x == 0) { // só entra no looping se possui mesma quantidade de digitos
+    while(aux1->prox != a) { // só entra no looping se possui mesma quantidade de digitos
         if(aux1->num > aux2->num) {
             return a;
         }
@@ -123,6 +204,7 @@ Numprimo * maior(Numprimo * a, Numprimo * b) {
         aux1 = aux1->prox;
         aux2 = aux2->prox;
     }
+    return a;
 }
 
 /* Recebe um ponteiro para um Numprimo e conta a quantidades de
@@ -141,127 +223,8 @@ int numDigitos(Numprimo * a) {
     return i;
 }
 
-void deslocaEsq(Numprimo *head) {
-    Numprimo *tmp = head->ante;
-    Numprimo *novo = (Numprimo*) malloc(sizeof(Numprimo));
-    novo->num = 0;
-    novo->ante = tmp;
-    tmp->prox = novo;
-    novo->prox = head; //TROCAR SE NÃO FOR CIRCULAR
-}
-
-void deslocaDir(Numprimo *head) {
-    Numprimo *tmp = head->ante;
-    if (tmp->ante == head) {
-        head->ante = NULL;
-        head->prox = NULL;
-        printf("\n **entrei no null");
-    }
-    else {
-        tmp->ante->prox = head;
-        head->ante = tmp->ante;
-    }
-}
-
-Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
-    Numprimo *total;
-    // X = HEAD1 | Y = HEAD2
-    printf("\n Debug 1...");
-    if(head2->prox == NULL) {
-        return criaLista(0);
-    }
-    printf("\n Retirando:%d...", head2->ante->num);
-    deslocaDir(head2); //DIVIDIMOS POR 10
-    total = multiplica(head1, head2);
-    if(impar(head2) == 0) {
-        deslocaEsq(total);//MULTIPLICA POR 10
-            printf("\n Debug 4...");
-    }
-    else {
-        deslocaEsq(total); //DESLOQUEI
-            printf("\n Debug 5...");
-        return soma(head1, total);
-    }
-}
-
-Resultado *divide(Numprimo *head1, Numprimo *head2) {
-    Numprimo *aux1 = head1->ante;
-    Numprimo *aux2 = head2->ante;
-    Numprimo *q;
-    Numprimo *r;
-    Resultado *result;
-
-    printf("\n DBG 1...");
-    if (head1->prox == NULL) {
-        //TRANSFORMANDO Q E R NA REPRESENTACAO DE 0 NOSSA
-        printf("\n DBG 44...");
-        //DEVOLVENDO UM PONTEIRO Q E R QUE SEJAM 0
-        q = criaLista(0);
-        r = criaLista(0);
-
-        result = (Resultado*) malloc(sizeof(Resultado));
-        result->value1 = q;
-        result->value2 = r;
-
-        printf("\n DBG 45...");
-        return result;
-    }
-    /*DEBUGANDO*/
-    printf("\n DBG 2...");
-    //printf("\n");
-   // printLista(head1);
-    //printf("\n");
-   // printLista(head2);
-    /*DEBUGANDO*/
-    printf("\n Sendo retirado:%d", head1->ante->num);
-    deslocaDir(head1); //dividindo por 10
-    aux1 = aux1->ante;
-    result = divide(head1, head2);
-    printf("\n DBG 7...");
-    deslocaEsq(q);
-    deslocaEsq(r);
-    printf("\n DBG 3...");
-    if(impar(head1) == 1) {
-        r->ante->num = r->ante->num+1;
-    }
-    int size1 = numDigitos(r);
-    int size2 = numDigitos(head2);
-        printf("\n DBG 4...");
-    if(maior(r, head2) == r || size1 == size2) {
-        r->ante->num = r->ante->num-1;
-        subtrai(r, head2);
-            printf("\n DBG 5...");
-    }
-    result->value1 = q;
-    result->value2 = r;
-    return result;
-}
-
-Numprimo *copiaNum(Numprimo *head){
-    Numprimo *aux = head->ante;
-    Numprimo *novo = criaLista(0);
-    while(aux != head) {
-        insereLista(novo, aux->num);
-        aux = aux->ante;
-    }
-    return novo;
-}
-
-int impar(Numprimo *head) {
-    Numprimo *copia = copiaNum(head);
-    Numprimo *aux = copia->ante;
-    while(aux != copia){
-        printf("\n %d/2 sobra %d", aux->num, aux->num%2);
-        if(aux->num%2 != 0) {
-            return 1; //RETORNA IMPAR
-        }
-        aux = aux->ante;
-    }
-    return 0; //RETORNA PAR
-}
-
 Numprimo * subtrai(Numprimo * a, Numprimo * b) {
-    Numprimo * aux1, * aux2, * empresta, * c;
+    Numprimo * aux1, * aux2, * c;
     int subtracao;
 
     // se b > a entao o algoritmo nao funciona, entao mudamos
