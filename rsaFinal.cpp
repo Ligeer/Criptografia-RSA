@@ -23,17 +23,19 @@ void geraLista(Numprimo *head, int numeros);
 void printLista(Numprimo *head);
 void insereLista(Numprimo *head, int num);
 void pedeEmprestado(Numprimo * a);
-Numprimo * soma(Numprimo *head1, Numprimo *head2);
-Numprimo * maior(Numprimo * a, Numprimo * b);
-Numprimo * subtrai(Numprimo * a, Numprimo * b);
-Numprimo * multiplica(Numprimo * a, Numprimo * b);
 Numprimo * copia(Numprimo * a);
 int deslocaEsquerda(Numprimo * a);
 void deslocaDireita(Numprimo * a);
 int ePar(Numprimo * a);
+void insereZeros(Numprimo *head, int n, int digito);
+
+
 
 //OPERAÇÕES
-//*FALTA COMEÇAR IMPLEMENTAR AS OPERAÇÕES
+Numprimo * soma(Numprimo *head1, Numprimo *head2);
+Numprimo * maior(Numprimo * a, Numprimo * b);
+Numprimo * subtrai(Numprimo * a, Numprimo * b);
+Numprimo * multiplica(Numprimo *head1, Numprimo *head2);
 
 int main() {
     Numprimo * head1, * head2;
@@ -57,29 +59,58 @@ int main() {
     return 0;
 }
 
-Numprimo * multiplica(Numprimo * a, Numprimo * b) {
-    Numprimo * c, * aux;
-    int resto;
-
-    aux = criaLista(1);
-
-    if(numDigitos(b) == 1 && b->prox->num == 0) {
-        c = criaLista(1);
-        insereLista(c, 0);
-        return c;
+// recebe n = quantia de zeros, digito = valor total da mult de n1*n2
+void insereZeros(Numprimo *head, int n, int digito) {
+    int auxNum;
+    while(n != 0) { //Inserindo primeiros todos os 0
+        insereLista(head, 0);
+        n--;
     }
+    //Variavel digito sempre tera 2 casas decimais apenas
+    auxNum = digito%10;
+    digito = (digito - auxNum)/10;
+    insereLista(head, auxNum);
+    insereLista(head, digito);
+}
 
-    resto = deslocaEsquerda(b);
-    insereLista(aux, resto);
-    c = multiplica(a, b);
-    printf("\n");
-    printLista(c);
-
-//deve devolver c + (a multiplicação do primeiro parâmetro pelo resto da divisão de y por 10).
-// soma(c, multiplica(a, aux)
-  //  deslocaDireita(c);
-    //printLista(c);
-    return soma(c, multiplica(a, aux));
+//Depende da funcao insereZeros
+Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
+    Numprimo *aux1 = head1->ante;
+    Numprimo *aux2 = head2->ante;
+    Numprimo *result = criaLista(0); //recebe o valor da soma total
+    Numprimo *tmp = criaLista(0); // recebe num1*num2..seguido de zeros
+    Numprimo *exclude;
+    int total = 0;
+    int qntZeros1 = 0; //CONTANDO A QUANTIA DE ZEROS PARA A SOMA
+    int qntZeros2 = 0; //CONTANDO A QUANTIA DE ZEROS PARA A SOMA
+    while(aux2 != head2) {
+        aux1 = head1->ante; //voltando sempre pro final
+        while(aux1 != head1) {
+            total = aux2->num*aux1->num;
+            tmp = criaLista(0); //Precisa sempre ser renovada
+            insereZeros(tmp, qntZeros1+qntZeros2, total); //A multiplicacao recebe uma quantia de zeros = zero1+zero2
+            if(result != result->prox) { // SE RESULTE NÃO ESTIVER VAZIA
+                result = soma(result, tmp); //Soma vai ser incrementado sempre
+                printf("\n");
+            }
+            else {
+                result = tmp; //Se nao o result sera apenas a primeira multiplicacao
+                printf("\n");
+            }
+            qntZeros1++;
+            aux1 = aux1->ante;
+        }
+        aux2 = aux2->ante;
+        total = 0; //zerando o total
+        qntZeros1 = 0; //apenas o qntzeros do numero 1 precisa ser limpo
+        qntZeros2++;
+    }
+    if(result->prox->num == 0) { //Apagando o zero que aparece de vez em quando
+        exclude = result->prox;
+        result->prox = exclude->prox;
+        free(exclude); //liberando a memoria que estava alocada pra aquela celular
+    }
+    return result;
 }
 
 int ePar(Numprimo * a) {
