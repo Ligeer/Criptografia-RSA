@@ -15,18 +15,18 @@ typedef struct numPrimo Numprimo;
 //FUNÇÕES
 int geraNumeroMax(int n);
 int numDigitos(Numprimo * a);
+int primalidade(int n);
+int deslocaEsquerda(Numprimo * a);
+int ePar(Numprimo * a);
 Numprimo *geraPrimoGrande();
 Numprimo * criaLista(int valor);
-int primalidade(int n);
+Numprimo * copia(Numprimo * a);
 void geraSeed();
 void geraLista(Numprimo *head, int numeros);
 void printLista(Numprimo *head);
 void insereLista(Numprimo *head, int num);
 void pedeEmprestado(Numprimo * a);
-Numprimo * copia(Numprimo * a);
-int deslocaEsquerda(Numprimo * a);
 void deslocaDireita(Numprimo * a);
-int ePar(Numprimo * a);
 void insereZeros(Numprimo *head, int n, int digito);
 
 
@@ -36,30 +36,34 @@ Numprimo * soma(Numprimo *head1, Numprimo *head2);
 Numprimo * maior(Numprimo * a, Numprimo * b);
 Numprimo * subtrai(Numprimo * a, Numprimo * b);
 Numprimo * multiplica(Numprimo *head1, Numprimo *head2);
+Numprimo * exponenciacao(Numprimo * a, Numprimo * b);
 
 int main() {
-    Numprimo * head1, * head2;
+    Numprimo * head1, * head2, *aux;
 
     head1 = criaLista(1); // 0 indica o sinal do numero
     head2 = criaLista(1);
 
     geraSeed();
-    geraLista(head1, 5);
-    geraLista(head2, 1);
+    geraLista(head1, 1);
+    //geraLista(head2, 1);
+    insereLista(head2, 4);
 
     printLista(head1);
     printf("\n");
     //printLista(soma(head1, head2));
     //printf("\n");
     printLista(head2);
-    printf("\n");
+    printf("\n\n ");
 
-    printLista(multiplica(head1, head2));
+    printf("Exponenciacao:\n");
+    printLista(exponenciacao(head1, head2) );
     //printLista(soma(head1, head2));
     return 0;
 }
 
 // recebe n = quantia de zeros, digito = valor total da mult de n1*n2
+// @TODO: poder reaproveitar parte da funcao deslocaDireita que faz a mesma coisa só que uma vez
 void insereZeros(Numprimo *head, int n, int digito) {
     int auxNum;
     while(n != 0) { //Inserindo primeiros todos os 0
@@ -73,12 +77,44 @@ void insereZeros(Numprimo *head, int n, int digito) {
     insereLista(head, digito);
 }
 
+// Recomendacao, nao avacalhar na quantidade de digitos, uma quantidade pequena ja consome muita memoria e tempo
+Numprimo * exponenciacao(Numprimo * a, Numprimo * b) {
+    Numprimo * c, * aux, * um;
+
+    if(numDigitos(b) == 1) {
+        switch(b->prox->num) {
+            case 0: // retorna um
+                c = criaLista(1);
+                insereLista(c, 1);
+                return c;
+            case 1: // retorna uma cópia do próprio a
+                return copia(a);
+            case 2: // retorna multiplica(a, a);
+                return multiplica(a, a);
+        }
+    }
+
+    c = multiplica(a, a);
+
+    um = criaLista(1);  // o valor desse com o de um auxiliar precisa uma hora ser igual ao expoente
+    insereLista(um, 1); // um representa uma lista com o valor igual a 1
+
+    aux = criaLista(1);
+    insereLista(aux, 2); // ja fizemos a * a = duas vezes a^2, entao devemos 2
+
+    while(aux->prox->num != b->prox->num) { // quando os expoente auxiliar for igual o expoente real, temos o resultado das multiplicacoes
+        c = multiplica(a, c);
+        aux = soma(aux, um);
+    }
+    return c;
+}
+
 //Depende da funcao insereZeros
 Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
     Numprimo *aux1 = head1->ante;
     Numprimo *aux2 = head2->ante;
-    Numprimo *result = criaLista(0); //recebe o valor da soma total
-    Numprimo *tmp = criaLista(0); // recebe num1*num2..seguido de zeros
+    Numprimo *result = criaLista(1); //recebe o valor da soma total
+    Numprimo *tmp = criaLista(1); // recebe num1*num2..seguido de zeros
     Numprimo *exclude;
     int total = 0;
     int qntZeros1 = 0; //CONTANDO A QUANTIA DE ZEROS PARA A SOMA
@@ -87,15 +123,13 @@ Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
         aux1 = head1->ante; //voltando sempre pro final
         while(aux1 != head1) {
             total = aux2->num*aux1->num;
-            tmp = criaLista(0); //Precisa sempre ser renovada
+            tmp = criaLista(1); //Precisa sempre ser renovada
             insereZeros(tmp, qntZeros1+qntZeros2, total); //A multiplicacao recebe uma quantia de zeros = zero1+zero2
             if(result != result->prox) { // SE RESULTE NÃO ESTIVER VAZIA
                 result = soma(result, tmp); //Soma vai ser incrementado sempre
-                printf("\n");
             }
             else {
                 result = tmp; //Se nao o result sera apenas a primeira multiplicacao
-                printf("\n");
             }
             qntZeros1++;
             aux1 = aux1->ante;
@@ -113,6 +147,7 @@ Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
     return result;
 }
 
+// Recebe um Numprimo e retorna verdadeiro se se o resto da divisao por 2 é zero do último dígito
 int ePar(Numprimo * a) {
     return a->ante->num  % 2 == 0 ? 1 : 0;
 }
@@ -126,7 +161,7 @@ Numprimo * copia(Numprimo * a) {
     nova = criaLista(a->num); // cria nova cabeça igual a cabeça de a
 
     while(aux != a) { // percorre do final até o começo
-        insereLista(a, aux->num);
+        insereLista(nova, aux->num);
         aux = aux->ante;
     }
     return aux; // devolve a cabeça do numero copiado
@@ -199,7 +234,6 @@ Numprimo * soma(Numprimo *head1, Numprimo *head2) {
     if(carry != 0) {
         insereLista(soma, carry);
     }
-    printf("\n");
     return soma;
 }
 
