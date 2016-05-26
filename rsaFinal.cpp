@@ -36,6 +36,7 @@ Numprimo * soma(Numprimo *head1, Numprimo *head2);
 Numprimo * maior(Numprimo * a, Numprimo * b);
 Numprimo * subtrai(Numprimo * a, Numprimo * b);
 Numprimo * multiplica(Numprimo *head1, Numprimo *head2);
+Numprimo * multiplica2(Numprimo *head1, Numprimo *head2);
 Numprimo * exponenciacao(Numprimo * a, Numprimo * b);
 
 int main() {
@@ -45,7 +46,7 @@ int main() {
     head2 = criaLista(1);
 
     geraSeed();
-    geraLista(head1, 1);
+    geraLista(head1, 2);
     //geraLista(head2, 1);
     insereLista(head2, 4);
 
@@ -57,9 +58,48 @@ int main() {
     printf("\n\n ");
 
     printf("Exponenciacao:\n");
-    printLista(exponenciacao(head1, head2) );
+    printLista(multiplica(head1, head1) );
+    printf("multiplica novo: \n");
+    printLista(multiplica2(head1, head1));
     //printLista(soma(head1, head2));
     return 0;
+}
+
+Numprimo * multiplica2(Numprimo * a, Numprimo * b) {
+    Numprimo * c, * aux;
+    int resto, i;
+
+    aux = criaLista(1);
+
+    if(numDigitos(b) == 1) {
+        switch(b->prox->num) {
+            case 0:
+                c = criaLista(1);
+                insereLista(c, 0);
+                break;
+            case 1:
+                c = copia(a);
+                break;
+            case 2:
+                c = soma(a, a);
+                break;
+            default:
+                c = soma(a, a);
+                for(i = 2; i < b->prox->num; i++) {
+                    c = soma(c, a);
+                }
+                break;
+        }
+        return c;
+    }
+
+    resto = deslocaEsquerda(b);
+    c = multiplica(a, b);
+
+    insereLista(aux, resto);
+    deslocaDireita(c);
+
+    return soma(c, multiplica(a, aux));
 }
 
 // recebe n = quantia de zeros, digito = valor total da mult de n1*n2
