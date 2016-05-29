@@ -176,9 +176,10 @@ void insereZeros(Numprimo *head, int n, int digito) {
     insereLista(head, digito);
 }
 
-// Recomendacao, nao avacalhar na quantidade de digitos, uma quantidade pequena ja consome muita memoria e tempo
+// Pode dale que o algoritmo tá zika agora
 Numprimo * exponenciacao(Numprimo * a, Numprimo * b) {
     Numprimo * c, * aux, * um;
+    Numprimo *tmp = copiaNum(a);
 
     if(numDigitos(b) == 1) {
         switch(b->prox->num) {
@@ -187,13 +188,13 @@ Numprimo * exponenciacao(Numprimo * a, Numprimo * b) {
                 insereLista(c, 1);
                 return c;
             case 1: // retorna uma cópia do próprio a
-                return copia(a);
+                return tmp;
             case 2: // retorna multiplica(a, a);
-                return multiplica(a, a);
+                return multiplica(a, tmp);
         }
     }
 
-    c = multiplica(a, a);
+    c = multiplica(a, tmp);
 
     um = criaLista(1);  // o valor desse com o de um auxiliar precisa uma hora ser igual ao expoente
     insereLista(um, 1); // um representa uma lista com o valor igual a 1
