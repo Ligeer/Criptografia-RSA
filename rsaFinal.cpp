@@ -10,7 +10,15 @@ struct numPrimo {
     struct numPrimo *ante;
 };
 
+struct resultado {
+    struct numPrimo *value1;
+    struct numPrimo *value2;
+    struct numPrimo *value3;
+    struct numPrimo *value4;
+};
+
 typedef struct numPrimo Numprimo;
+typedef struct resultado Resultado;
 
 //FUNÇÕES
 int geraNumeroMax(int n);
@@ -28,8 +36,10 @@ void insereLista(Numprimo *head, int num);
 void pedeEmprestado(Numprimo * a);
 void deslocaDireita(Numprimo * a);
 void insereZeros(Numprimo *head, int n, int digito);
-
-
+int numMaior(Numprimo *head1, Numprimo *head2);
+void limpaZero(Numprimo *head);
+Numprimo *copiaNum(Numprimo *head);
+int numIgual(Numprimo *head1, Numprimo *head2);
 
 //OPERAÇÕES
 Numprimo * soma(Numprimo *head1, Numprimo *head2);
@@ -38,6 +48,7 @@ Numprimo * subtrai(Numprimo * a, Numprimo * b);
 Numprimo * multiplica(Numprimo *head1, Numprimo *head2);
 Numprimo * multiplica2(Numprimo *head1, Numprimo *head2);
 Numprimo * exponenciacao(Numprimo * a, Numprimo * b);
+Resultado *divide(Numprimo *head1, Numprimo *head2);
 
 int main() {
     Numprimo * head1, * head2, *aux;
@@ -63,6 +74,54 @@ int main() {
     printLista(multiplica2(head1, head1));
     //printLista(soma(head1, head2));
     return 0;
+}
+
+//Ressaltando a entrada NUMERO 1 DEVE SER MAIOR OU IGUAL QUE 2
+//Desempenho péssimo com numeros que variam muito a quantidade de casas decimais exemplo: 234384734 / 2
+//Implementado com o principio da soma iterativa até atingir o numero ou passar
+Resultado *divide(Numprimo *head1, Numprimo *head2) {
+    /*Entrada: Dois numeros inteiro de n bits head1 e head2, onde head2>= 1
+    Saida: O quociente e o resto de head1 dividido por head2
+    */
+    Resultado *result = (Resultado*) malloc(sizeof(Resultado));
+    int i = 1; //Talvez precisa usar um unsigned long long para armazenar
+    result->value1 = criaLista(0);
+    Numprimo *copia = copiaNum(head2);
+    Numprimo *quociente = result->value1;
+    Numprimo *resto;
+    if(numIgual(head1, head2) == 1) { //Tratando numeros iguais
+        insereLista(quociente, 1);
+        resto = criaLista(0);
+        insereLista(resto, 0);
+        result->value2 = resto;
+        return result;
+    }
+    while(numMaior(copia, head1) != 1)  {
+        copia = soma(copia, head2); //Somando diversas vezes o quociente com ele mesmo
+        i++;
+        printLista(copia);
+    }
+    //Inserindo quociente transformando de inteiro para celula
+    while(i != 0){
+        int num = i%10;
+        i = i / 10;
+        insereLista(quociente, num);
+    }
+    //Numero ultrapassou seu dividendo
+    if(numMaior(copia, head1) == 1 && numIgual(copia, head1) != 1) {
+        quociente->ante->num -= 1;
+        copia = subtrai(copia, head2);
+    }
+    //Dividendo e divisor são iguais
+    if(numIgual(copia, head1) == 1){
+        resto = criaLista(0);
+        insereLista(resto, 0);
+        result->value2 = resto;
+        return result;
+    }
+    resto = subtrai(head1, copia);
+    result->value2 = resto;
+    return result;
 }
 
 Numprimo * multiplica2(Numprimo * a, Numprimo * b) {
@@ -375,7 +434,71 @@ Numprimo * subtrai(Numprimo * a, Numprimo * b) {
         insereLista(c, aux2->num);
         aux2 = aux2->ante;
     }
+    limpaZero(c); //Estava gerando zeros ao começo do numero na saida
     return c;
+}
+
+//Limpa zero do inicio da subtração
+void limpaZero(Numprimo *head) {
+    Numprimo *exclude;
+    while(head->prox->num == 0) {
+        exclude = head->prox;
+        head->prox = exclude->prox;
+        exclude->prox->ante = head;
+        free(exclude);
+    }
+}
+
+//Recebe um numero e devolve um ponteiro novo alocado de uma copia identica
+Numprimo *copiaNum(Numprimo *head) {
+    Numprimo *aux = head->ante;
+    Numprimo *copia = criaLista(0);
+    while(aux != head){
+        insereLista(copia, aux->num);
+        aux = aux->ante;
+    }
+    return copia;
+}
+
+
+//Função otimizada para comparar se o numero é maior comparando digito a digito
+int numMaior(Numprimo *head1, Numprimo *head2) {
+    //Numero 1 é maior que 2 somente se todos digitos de 1 é maior que 2
+    Numprimo *aux1 = head1->prox;
+    Numprimo *aux2 = head2->prox;
+    if(numDigitos(head1) > numDigitos(head2)) {
+        return 1;
+    }
+    if(numDigitos(head1) == numDigitos(head2)){
+        while(aux1 != head1) {
+            if(aux1->num < aux2->num){
+                return 0;
+            }
+            aux1 = aux1->prox;
+            aux2 = aux2->prox;
+        }
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+//Verifica se os numeros sao exatamente iguais
+int numIgual(Numprimo *head1, Numprimo *head2){
+    Numprimo *aux1 = head1->prox;
+    Numprimo *aux2 = head2->prox;
+    if(numDigitos(head1) != numDigitos(head2)){ //garantindo que a quantia de digito é igual
+        return 0;
+    }
+    while(aux1 != head1) {
+        if(aux1->num != aux2->num) {
+            return 0;
+        }
+        aux1 = aux1->prox;
+        aux2 = aux2->prox;
+    }
+    return 1;
 }
 
 /* Função utilizada na subtracao de um Numprimo
