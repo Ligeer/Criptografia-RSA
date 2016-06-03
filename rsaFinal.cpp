@@ -61,8 +61,8 @@ int main() {
     head2 = criaLista(1);
 
     geraSeed();
-    geraLista(head1, 5);
-    geraLista(head2, 3);
+    geraLista(head1, 300);
+    geraLista(head2, 100);
     //insereLista(head2, 4);
 
     printLista(head1);
@@ -74,7 +74,7 @@ int main() {
     //printf("\n");
     //printLista(head2);
 
-    result = divide(head1, head2);
+    result = divide(copia(head1), copia(head2));
 
     printf("\nQuociente:\n");
     printLista(result->value1);
@@ -128,12 +128,19 @@ Resultado *  divide(Numprimo * a, Numprimo * b) {
 
         aux = criaLista(1);
         insereLista(aux, 1);
-        for(i = 1; i <= 9; i++) {
+
+        aux->prox->num = 1;
+
+        for(i = 1; i <= 10; i++) {
 
             aux->prox->num = i;
             aux2->prox->num = i - 1;
 
             if(! (maior(result->value2, multiplica(aux, b)) == result->value2)) {
+                if(i == 1)  {
+                    return result;
+                }
+
                 result->value1 = soma(result->value1, aux2); // q' + aux
 
                 // aux * b - r'
@@ -150,57 +157,6 @@ Resultado *  divide(Numprimo * a, Numprimo * b) {
 
     }
 }
-
-/*
-
-//Ressaltando a entrada NUMERO 1 DEVE SER MAIOR OU IGUAL QUE 2
-//Desempenho péssimo com numeros que variam muito a quantidade de casas decimais exemplo: 234384734 / 2
-//Implementado com o principio da soma iterativa até atingir o numero ou passar
-Resultado *divide(Numprimo *head1, Numprimo *head2) {
-    //Entrada: Dois numeros inteiro de n bits head1 e head2, onde head2>= 1
-    //Saida: O quociente e o resto de head1 dividido por head2
-
-    Resultado *result = (Resultado*) malloc(sizeof(Resultado));
-    int i = 1; //Talvez precisa usar um unsigned long long para armazenar
-    result->value1 = criaLista(0);
-    Numprimo *copia = copiaNum(head2);
-    Numprimo *quociente = result->value1;
-    Numprimo *resto;
-    if(numIgual(head1, head2) == 1) { //Tratando numeros iguais
-        insereLista(quociente, 1);
-        resto = criaLista(0);
-        insereLista(resto, 0);
-        result->value2 = resto;
-        return result;
-    }
-    while(numMaior(copia, head1) != 1)  {
-        copia = soma(copia, head2); //Somando diversas vezes o quociente com ele mesmo
-        i++;
-        //printLista(copia);
-    }
-    //Inserindo quociente transformando de inteiro para celula
-    while(i != 0){
-        int num = i%10;
-        i = i / 10;
-        insereLista(quociente, num);
-    }
-    //Numero ultrapassou seu dividendo
-    if(numMaior(copia, head1) == 1 && numIgual(copia, head1) != 1) {
-        quociente->ante->num -= 1;
-        copia = subtrai(copia, head2);
-    }
-    //Dividendo e divisor são iguais
-    if(numIgual(copia, head1) == 1){
-        resto = criaLista(0);
-        insereLista(resto, 0);
-        result->value2 = resto;
-        return result;
-    }
-    resto = subtrai(head1, copia);
-    result->value2 = resto;
-    return result;
-}
-*/
 
 Numprimo * multiplica2(Numprimo * a, Numprimo * b) {
     Numprimo * c, * aux;
