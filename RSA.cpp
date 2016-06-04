@@ -54,11 +54,11 @@ Numprimo *somaModular(Numprimo *num1, Numprimo *num2, Numprimo *mod);
 Numprimo *subtracModular(Numprimo *num1, Numprimo *num2, Numprimo *mod);
 Numprimo *multiplicaModular(Numprimo *num1, Numprimo *num2, Numprimo *mod);
 Numprimo *expoModular(Numprimo *x, Numprimo *y, Numprimo *N);
-
+Numprimo *divisaoModular(Numprimo * a, Numprimo * b, Numprimo * n);
 
 int main() {
-    Numprimo * head1, * head2, * head3, *aux;
-    int i, escolha;
+    Numprimo * head1, * head2, * head3;
+    int escolha;
     Resultado * result;
 
     head1 = criaLista(1); // 0 indica o sinal do numero
@@ -67,25 +67,9 @@ int main() {
 
     geraSeed();
 
-    insereLista(head1, 2);
-    insereLista(head1, 3);
-    insereLista(head1, 7);
-    insereLista(head1, 4);
-    insereLista(head1, 2);
-    insereLista(head1, 5);
-    insereLista(head1, 3);
-
-    insereLista(head2, 2);
-    insereLista(head2, 3);
-    insereLista(head2, 7);
-    insereLista(head2, 4);
-
-    insereLista(head3, 4);
-    insereLista(head3, 3);
-
     geraLista(head1, 7);
     geraLista(head2, 4);
-    geraLista(head2, 2);
+    geraLista(head3, 2);
 
     printLista(head1);
     printf("\n\n\n\n");
@@ -94,7 +78,7 @@ int main() {
     printLista(head3);
     printf("\n\n\n\n");
 
-    printf("Digite:\n1- Soma\n2- Subtracao\n3- Multiplicacao\n4- Divisao");
+    printf("Faca uma operacao:\n1- Soma\n2- Subtracao\n3- Multiplicacao\n4- Divisao\n5- Exponenciacao\n6- Soma modular\n7- Subtracao modular\n8- Multiplicacao modular\n9- Divisao modular\n10- Exponenciacao modular\n");
     scanf("%i", &escolha);
 
     switch(escolha) {
@@ -118,6 +102,30 @@ int main() {
             printf("\nResto:\n");
             printLista(result->value2);
             break;
+        case 5:
+            printf("\n\n A^B \n");
+            printLista(exponenciacao(copia(head1), copia(head2) ) );
+            break;
+        case 6:
+            printf("\n\nSoma modular: A + B \n");
+            printLista(somaModular(copia(head1), copia(head2), copia(head3)) );
+            break;
+        case 7:
+            printf("\n\nSubtracao A - B \n");
+            printLista(subtracModular(copia(head1), copia(head2), copia(head3) ) );
+            break;
+        case 8:
+            printf("\n\n Multiplicacao  A * B \n");
+            printLista(multiplicaModular(copia(head1), copia(head2), copia(head3)) );
+            break;
+        case 9:
+            printf("\n\n Divisao modular A / B \n");
+            printLista(divisaoModular(copia(head1), copia(head2), copia(head3) ));
+            break;
+        case 10:
+            printf("\n\n Exponenciacao modular A^B \n");
+            printLista(expoModular(copia(head1), copia(head2) , copia(head3)) );
+            break;
         default:
             break;
     }
@@ -126,7 +134,7 @@ int main() {
 
 Resultado *  divide(Numprimo * a, Numprimo * b) {
     Numprimo * aux, * aux2;
-    Resultado * result, * result2;
+    Resultado * result;
     int resto, i;
 
     if(a->prox->num == 0) { // se b = 0
@@ -320,7 +328,7 @@ Numprimo * soma(Numprimo *head1, Numprimo *head2) {
     Numprimo *soma = criaLista(1);
     int total = 0;
     int carry = 0; //ARMAZENA O EXCESSO DA SOMA
-    int i = 0;
+
     while (headaux1 != head1 || headaux2 != head2) {
 
         if(headaux1 != head1 && headaux2 != head2) {
@@ -618,6 +626,12 @@ void printLista(Numprimo *head){
     }
 }
 
+Numprimo * divisaoModular(Numprimo * a, Numprimo * b, Numprimo * n) {
+    Numprimo * rst;
+    rst = divide(a, b)->value2;
+    return rst;
+}
+
 Numprimo *expoModular(Numprimo *x, Numprimo *y, Numprimo *N) {
     Numprimo *z; //Irá guardar o valor das chamadas recursivas
     Numprimo *z2 = criaLista(0); //Irá guardar o valor das chamadas recursivas
@@ -626,6 +640,7 @@ Numprimo *expoModular(Numprimo *x, Numprimo *y, Numprimo *N) {
     int i = 1;
     //Criando o numero 10
     Numprimo *num10 = NULL;
+
     if(num10 == NULL) {
         num10 = criaLista(0);
         insereLista(num10, 0);
@@ -651,7 +666,7 @@ Numprimo *expoModular(Numprimo *x, Numprimo *y, Numprimo *N) {
     }
     z = z2;
     z = expoModular(x, num10, N);
-    auxDivide = divide(exp, num10); //Vai retornar o quociente e o resto,
+    auxDivide = divide(auxExpMod, num10); //Vai retornar o quociente e o resto,
     auxExpMod = expoModular(x, auxDivide->value2, N);
     return multiplicaModular(auxExpMod, z, N);
 }
