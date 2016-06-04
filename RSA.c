@@ -13,8 +13,6 @@ struct numPrimo {
 struct resultado {
     struct numPrimo *value1;
     struct numPrimo *value2;
-    struct numPrimo *value3;
-    struct numPrimo *value4;
 };
 
 typedef struct numPrimo Numprimo;
@@ -53,41 +51,73 @@ Numprimo * exponenciacao(Numprimo * a, Numprimo * b);
 Resultado *divide(Numprimo *head1, Numprimo *head2);
 
 int main() {
-    Numprimo * head1, * head2, *aux;
-    int i;
+    Numprimo * head1, * head2, * head3, *aux;
+    int i, escolha;
     Resultado * result;
 
     head1 = criaLista(1); // 0 indica o sinal do numero
     head2 = criaLista(1);
+    head3 = criaLista(1);
 
     geraSeed();
-    geraLista(head1, 300);
-    geraLista(head2, 100);
-    //insereLista(head2, 4);
+
+    insereLista(head1, 2);
+    insereLista(head1, 3);
+    insereLista(head1, 7);
+    insereLista(head1, 4);
+    insereLista(head1, 2);
+    insereLista(head1, 5);
+    insereLista(head1, 3);
+
+    insereLista(head2, 2);
+    insereLista(head2, 3);
+    insereLista(head2, 7);
+    insereLista(head2, 4);
+
+    insereLista(head3, 4);
+    insereLista(head3, 3);
+
+    geraLista(head1, 7);
+    geraLista(head2, 4);
+    geraLista(head2, 2);
 
     printLista(head1);
-    printf("\n");
+    printf("\n\n\n\n");
     printLista(head2);
-    printf("\n");
+    printf("\n\n\n\n");
+    printLista(head3);
+    printf("\n\n\n\n");
 
-    //printLista(soma(head1, head2));
-    //printf("\n");
-    //printLista(head2);
+    printf("Digite:\n1- Soma\n2- Subtracao\n3- Multiplicacao\n4- Divisao");
+    scanf("%i", &escolha);
 
-    result = divide(copia(head1), copia(head2));
-
-    printf("\nQuociente:\n");
-    printLista(result->value1);
-    printf("\nResto: \n");
-    printLista(result->value2);
-    //printLista(multiplica2(head1, head2));
-
+    switch(escolha) {
+        case 1:
+            printf("\n\n A + B \n");
+            printLista(soma(copia(head1), copia(head2) ) );
+            break;
+        case 2:
+            printf("\n\n A - B \n");
+            printLista(subtrai(copia(head1), copia(head2) ) );
+            break;
+        case 3:
+            printf("\n\n A * B \n");
+            printLista(multiplica(copia(head1), copia(head2) ) );
+            break;
+        case 4:
+            printf("\n\n A / B \n");
+            result = divide(copia(head1), copia(head2));
+            printf("\nQuociente:\n");
+            printLista(result->value1);
+            printf("\nResto:\n");
+            printLista(result->value2);
+            break;
+        default:
+            break;
+    }
     return 0;
 }
 
-
-//value1 = q
-//value2 = r
 Resultado *  divide(Numprimo * a, Numprimo * b) {
     Numprimo * aux, * aux2;
     Resultado * result, * result2;
@@ -96,7 +126,6 @@ Resultado *  divide(Numprimo * a, Numprimo * b) {
     if(a->prox->num == 0) { // se b = 0
         result = (Resultado *) malloc(sizeof(result));
 
-//        printf("\n cheguei na base\n");
         result->value1 = criaLista(1);
         insereLista(result->value1, 0);
 
@@ -113,17 +142,6 @@ Resultado *  divide(Numprimo * a, Numprimo * b) {
         aux2 = criaLista(1);
         insereLista(aux2, resto);
         result->value2 = soma(aux2, result->value2);
-
-
-/*        result2 = divide(result->value2, b);
-        result->value1 = soma(result->value1, result2->value1);
-        result->value2 = copia(result2->value2);
-        return result;
-*/
-
-        //desalocaLista(aux2);
-        //aux2 = criaLista(1);
-       // insereLista(aux2, 1);
 
 
         aux = criaLista(1);
@@ -152,48 +170,7 @@ Resultado *  divide(Numprimo * a, Numprimo * b) {
         result->value1 = soma(result->value1, aux2);
         result->value2 = subtrai(result->value2, multiplica(aux2, b));
         return result;
-
-
-
     }
-}
-
-Numprimo * multiplica2(Numprimo * a, Numprimo * b) {
-    Numprimo * c, * aux;
-    int resto, i;
-
-    aux = criaLista(1);
-
-    if(numDigitos(b) == 1) {
-        switch(b->prox->num) {
-            case 0:
-                c = criaLista(1);
-                insereLista(c, 0);
-                break;
-            case 1:
-                c = copia(a);
-                break;
-            case 2:
-                c = soma(a, a);
-                break;
-            default:
-                c = soma(a, a);
-                for(i = 2; i < b->prox->num; i++) {
-                    c = soma(c, a);
-                }
-                break;
-        }
-        return c;
-    }
-
-
-    resto = deslocaEsquerda(b);
-    c = multiplica(a, b);
-
-    insereLista(aux, resto);
-    deslocaDireita(c);
-
-    return soma(c, multiplica2(a, aux));
 }
 
 // recebe n = quantia de zeros, digito = valor total da mult de n1*n2
@@ -634,4 +611,3 @@ void printLista(Numprimo *head){
         i++;
     }
 }
-
