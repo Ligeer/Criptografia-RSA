@@ -20,7 +20,7 @@ struct resultado {
 typedef struct numPrimo Numprimo;
 typedef struct resultado Resultado;
 
-//FUNÇÕES
+//FUNÃ‡Ã•ES
 int geraNumeroMax(int n);
 int numDigitos(Numprimo * a);
 int primalidade(int n);
@@ -43,7 +43,7 @@ int numIgual(Numprimo *head1, Numprimo *head2);
 void removeNumero(Numprimo * vitima);
 void desalocaLista(Numprimo * lst);
 
-//OPERAÇÕES
+//OPERAÃ‡Ã•ES
 Numprimo * soma(Numprimo *head1, Numprimo *head2);
 Numprimo * maior(Numprimo * a, Numprimo * b);
 Numprimo * subtrai(Numprimo * a, Numprimo * b);
@@ -197,7 +197,7 @@ Numprimo * multiplica2(Numprimo * a, Numprimo * b) {
 }
 
 // recebe n = quantia de zeros, digito = valor total da mult de n1*n2
-// @TODO: poder reaproveitar parte da funcao deslocaDireita que faz a mesma coisa só que uma vez
+// @TODO: poder reaproveitar parte da funcao deslocaDireita que faz a mesma coisa sÃ³ que uma vez
 void insereZeros(Numprimo *head, int n, int digito) {
     int auxNum;
     while(n != 0) { //Inserindo primeiros todos os 0
@@ -211,7 +211,7 @@ void insereZeros(Numprimo *head, int n, int digito) {
     insereLista(head, digito);
 }
 
-// Pode dale que o algoritmo tá zika agora
+// Pode dale que o algoritmo tÃ¡ zika agora
 Numprimo * exponenciacao(Numprimo * a, Numprimo * b) {
     Numprimo * c, * aux, * um;
     Numprimo *tmp = copiaNum(a);
@@ -222,7 +222,7 @@ Numprimo * exponenciacao(Numprimo * a, Numprimo * b) {
                 c = criaLista(1);
                 insereLista(c, 1);
                 return c;
-            case 1: // retorna uma cópia do próprio a
+            case 1: // retorna uma cÃ³pia do prÃ³prio a
                 return tmp;
             case 2: // retorna multiplica(a, a);
                 return multiplica(a, tmp);
@@ -260,7 +260,7 @@ Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
             total = aux2->num*aux1->num;
             tmp = criaLista(1); //Precisa sempre ser renovada
             insereZeros(tmp, qntZeros1+qntZeros2, total); //A multiplicacao recebe uma quantia de zeros = zero1+zero2
-            if(result != result->prox) { // SE RESULTE NÃO ESTIVER VAZIA
+            if(result != result->prox) { // SE RESULTE NÃƒO ESTIVER VAZIA
                 result = soma(result, tmp); //Soma vai ser incrementado sempre
             }
             else {
@@ -282,34 +282,34 @@ Numprimo *multiplica(Numprimo *head1, Numprimo *head2) {
     return result;
 }
 
-// Recebe um Numprimo e retorna verdadeiro se se o resto da divisao por 2 é zero do último dígito
+// Recebe um Numprimo e retorna verdadeiro se se o resto da divisao por 2 Ã© zero do Ãºltimo dÃ­gito
 int ePar(Numprimo * a) {
     return a->ante->num  % 2 == 0 ? 1 : 0;
 }
 
-// Recebe um Numprimo a e retorna Numprimo igual com outro endereço
+// Recebe um Numprimo a e retorna Numprimo igual com outro endereÃ§o
 Numprimo * copia(Numprimo * a) {
 
     Numprimo * nova, * aux;
 
     aux = a->ante;
-    nova = criaLista(a->num); // cria nova cabeça igual a cabeça de a
+    nova = criaLista(a->num); // cria nova cabeÃ§a igual a cabeÃ§a de a
 
-    while(aux != a) { // percorre do final até o começo
+    while(aux != a) { // percorre do final atÃ© o comeÃ§o
         insereLista(nova, aux->num);
         aux = aux->ante;
     }
-    return aux; // devolve a cabeça do numero copiado
+    return aux; // devolve a cabeÃ§a do numero copiado
 }
 
-// Desloca um digito para a esquerda do número, divisão inteira por 10
+// Desloca um digito para a esquerda do nÃºmero, divisÃ£o inteira por 10
 int deslocaEsquerda(Numprimo * a) {
     Numprimo * aux;
     int numero;
 
     numero = a->ante->num;
 
-    if(a->prox != a) { // fica  a critério deixar o número 0 ou somente a cabeça para representar um numero vazio
+    if(a->prox != a) { // fica  a critÃ©rio deixar o nÃºmero 0 ou somente a cabeÃ§a para representar um numero vazio
         aux = a->ante;
         aux->ante->prox = a;
         a->ante = aux->ante;
@@ -324,10 +324,10 @@ int deslocaEsquerda(Numprimo * a) {
 
 
 
-// Desloca um digito para a direita do número, multiplicação por 10
+// Desloca um digito para a direita do nÃºmero, multiplicaÃ§Ã£o por 10
 void deslocaDireita(Numprimo * a) {
-    if(a->prox->num != 0) { // se o número já é 0 nao adianta tentar colocar outro na frente
-        insereLista(a->ante, 0); // finge que o elemento anterior a cabeça é a cabeça e faz a inserção nela
+    if(a->prox->num != 0) { // se o nÃºmero jÃ¡ Ã© 0 nao adianta tentar colocar outro na frente
+        insereLista(a->ante, 0); // finge que o elemento anterior a cabeÃ§a Ã© a cabeÃ§a e faz a inserÃ§Ã£o nela
     }
 }
 
@@ -360,7 +360,7 @@ Numprimo * soma(Numprimo *head1, Numprimo *head2) {
             insereLista(soma, total); //INSERE 0 NA SOMA
         }
         else {
-            carry = 0; //ZERA O CARRY PORQUE JÁ FOI ADICIONADO NA SOMA E NAO EXCEDEU 10
+            carry = 0; //ZERA O CARRY PORQUE JÃ FOI ADICIONADO NA SOMA E NAO EXCEDEU 10
             insereLista(soma, total); //INSERE O TOTAL
         }
         if (headaux1 != head1) {
@@ -377,7 +377,7 @@ Numprimo * soma(Numprimo *head1, Numprimo *head2) {
     return soma;
 }
 
-/* Recebe dois Numprimos e retorna o endereço do maior */
+/* Recebe dois Numprimos e retorna o endereÃ§o do maior */
 Numprimo * maior(Numprimo * a, Numprimo * b) {
     Numprimo * aux1, * aux2;
 
@@ -386,7 +386,7 @@ Numprimo * maior(Numprimo * a, Numprimo * b) {
         return a->num == 1 ? a : b;
     }
 
-    // é maior o que tem mais digitos já que nao armazenamos zeros
+    // Ã© maior o que tem mais digitos jÃ¡ que nao armazenamos zeros
 
     // tratar se ambos forem negativos
     if(numDigitos(a) > numDigitos(b)) {
@@ -399,7 +399,7 @@ Numprimo * maior(Numprimo * a, Numprimo * b) {
     aux1 = a->prox;
     aux2 = b->prox;
 
-    while(aux1->prox != a) { // só entra no looping se possui mesma quantidade de digitos
+    while(aux1->prox != a) { // sÃ³ entra no looping se possui mesma quantidade de digitos
         if(aux1->num > aux2->num) {
             return a;
         }
@@ -413,7 +413,7 @@ Numprimo * maior(Numprimo * a, Numprimo * b) {
 }
 
 /* Recebe um ponteiro para um Numprimo e conta a quantidades de
-dígitos doo Numero
+dÃ­gitos doo Numero
  */
 int numDigitos(Numprimo * a) {
     Numprimo * aux;
@@ -433,10 +433,10 @@ Numprimo * subtrai(Numprimo * a, Numprimo * b) {
     int subtracao;
 
     // se b > a entao o algoritmo nao funciona, entao mudamos
-    // o sinal do número e chamamos a funcao com os argumentos invertidos
+    // o sinal do nÃºmero e chamamos a funcao com os argumentos invertidos
     if(maior(a, b) == b) {
         c = subtrai(b, a);
-        c->num *= -1; // negativa o resultado, já que b > a
+        c->num *= -1; // negativa o resultado, jÃ¡ que b > a
         return c;
     }
 
@@ -448,14 +448,14 @@ Numprimo * subtrai(Numprimo * a, Numprimo * b) {
         subtracao = 0;
 
         if(aux1->num - aux2->num < 0) {
-            pedeEmprestado(aux1); // pedimos emprestado para os dígitos anteriores
-            subtracao = 10 + aux1->num - aux2->num ; // subtração feita com o empréstimo
+            pedeEmprestado(aux1); // pedimos emprestado para os dÃ­gitos anteriores
+            subtracao = 10 + aux1->num - aux2->num ; // subtraÃ§Ã£o feita com o emprÃ©stimo
         } else {
-            subtracao = aux1->num - aux2->num; // não precisa fazer o empréstimo, subtração normal
+            subtracao = aux1->num - aux2->num; // nÃ£o precisa fazer o emprÃ©stimo, subtraÃ§Ã£o normal
         }
         insereLista(c, subtracao); // insere na lista o valor subtraido
 
-        // os dois ponteiros percorrerão para a esquerda até encontrar a cabeça da lista
+        // os dois ponteiros percorrerÃ£o para a esquerda atÃ© encontrar a cabeÃ§a da lista
         if(aux1 != a) {
             aux1 = aux1->ante;
         }
@@ -465,7 +465,7 @@ Numprimo * subtrai(Numprimo * a, Numprimo * b) {
 
     }
 
-    //agora uma das duas listas chegou na cabeça, a operação é só o próprio número
+    //agora uma das duas listas chegou na cabeÃ§a, a operaÃ§Ã£o Ã© sÃ³ o prÃ³prio nÃºmero
     while(aux1 != a) {
         insereLista(c, aux1->num);
         aux1 = aux1->ante;
@@ -475,11 +475,11 @@ Numprimo * subtrai(Numprimo * a, Numprimo * b) {
         insereLista(c, aux2->num);
         aux2 = aux2->ante;
     }
-    limpaZero(c); //Estava gerando zeros ao começo do numero na saida
+    limpaZero(c); //Estava gerando zeros ao comeÃ§o do numero na saida
     return c;
 }
 
-//Limpa zero do inicio da subtração
+//Limpa zero do inicio da subtraÃ§Ã£o
 void limpaZero(Numprimo *head) {
     Numprimo *exclude;
     while(head->prox->num == 0) {
@@ -502,9 +502,9 @@ Numprimo *copiaNum(Numprimo *head) {
 }
 
 
-//Função otimizada para comparar se o numero é maior comparando digito a digito
+//FunÃ§Ã£o otimizada para comparar se o numero Ã© maior comparando digito a digito
 int numMaior(Numprimo *head1, Numprimo *head2) {
-    //Numero 1 é maior que 2 somente se todos digitos de 1 é maior que 2
+    //Numero 1 Ã© maior que 2 somente se todos digitos de 1 Ã© maior que 2
     Numprimo *aux1 = head1->prox;
     Numprimo *aux2 = head2->prox;
     if(numDigitos(head1) > numDigitos(head2)) {
@@ -529,7 +529,7 @@ int numMaior(Numprimo *head1, Numprimo *head2) {
 int numIgual(Numprimo *head1, Numprimo *head2){
     Numprimo *aux1 = head1->prox;
     Numprimo *aux2 = head2->prox;
-    if(numDigitos(head1) != numDigitos(head2)){ //garantindo que a quantia de digito é igual
+    if(numDigitos(head1) != numDigitos(head2)){ //garantindo que a quantia de digito Ã© igual
         return 0;
     }
     while(aux1 != head1) {
@@ -542,7 +542,7 @@ int numIgual(Numprimo *head1, Numprimo *head2){
     return 1;
 }
 
-/* Função utilizada na subtracao de um Numprimo
+/* FunÃ§Ã£o utilizada na subtracao de um Numprimo
 pede emprestado um numero de uma casa, balanceando o valor
 na casa anterior
  */
@@ -577,10 +577,10 @@ void desalocaLista(Numprimo * lst) { // remove todos os elementos da lista
     }
 }
 
-void removeNumero(Numprimo * vitima) { // desaloca a memória da célula indicada
+void removeNumero(Numprimo * vitima) { // desaloca a memÃ³ria da cÃ©lula indicada
     Numprimo * aux;
 
-    if(vitima->prox == vitima) { // se a celula for a cabeça
+    if(vitima->prox == vitima) { // se a celula for a cabeÃ§a
         free(vitima); // desaloca vitima
     } else { // removemos um membro da lista duplamente encadeada
         aux = vitima->ante;
@@ -593,7 +593,7 @@ void removeNumero(Numprimo * vitima) { // desaloca a memória da célula indicada
 void insereLista(Numprimo *head, int num){
     Numprimo *novo;
     novo = (Numprimo*) malloc(sizeof(Numprimo));
-    novo->num = num; //acessa nova e bota o endereço da pessoa1 lá dentro;
+    novo->num = num; //acessa nova e bota o endereÃ§o da pessoa1 lÃ¡ dentro;
 
     if(head->prox == head) {
         novo->prox = head;
