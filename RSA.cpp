@@ -1,3 +1,109 @@
+/**
+*** Universidade Federal de Santa Catarina
+*** Exercício programa da disciplina de Análise e Projeto de Algoritmos 2016/1
+*** Alunos: Ale Chaito (14205353) Christian Roger Gaio (14202477) e Luan Rodrigues Silva (14209239)
+*** Professor: Álvaro Pereira Franco Junio
+
+
+    Esquema de Criptografia RSA
+
+        Esta lista de exercícios trata de números inteiros na base 10 com muitos dígitos
+            (digamos 500 dígitos). Você pode escolher a estrutura de dados que quiser
+            para armazenar cada dígito de um número. Lembre que um número inteiro pode
+            ser negativo e assim, este caso deve ser tratado.
+
+        Aritmética básica:
+            - Soma
+            - Subtração
+            - Multiplicação
+            - Exponenciação
+            - Divisão
+
+        Aritmética modular:
+            - Soma modular
+            - Subtração modular
+            - Multiplicação modular
+            - Exponenciação modular
+            - Divisão modular
+
+        Criptografia RSA:
+            - Implemente um algoritmo probabilístico que testa a primalidade de um número
+            inteiro, e erra com probabilidade 1/2^k, com k >= 1
+            - Implemente um algoritmo que gera números primos com n dígitos (n <= 200).
+            o tempo de execução médio desse algorítmo deve ser O(n^4).
+            - Implemente o esquema de criptografia RSA. Você precisa gerar uma única vez
+            as chaves pública e privada. A partir daí um texto qualquer deve ser criptografado
+            através do esquema RSA. Para a correção deste exercício, além da implementação,
+            divulguem as chaves pública e privadas geradas.
+
+
+
+    Descrição dos tipos de dados:
+
+        Numprimo - essa estrutura armazena um numero inteiro que equivale a um dígito ou o sinal
+        do número, possui um ponteiro que aponta para uma struct anterior e outro para o próximo.
+
+        Resultado - possui dois ponteiros para Numprimo, um representa o quociente de uma divisão
+        e o outro representa o resto.
+
+
+    Descrição das funções:
+
+        int geraNumeroMax(int n)
+            - A função gera um algaristmo aleatório para ser inserido na lista.
+        int numDigitos(Numprimo * a)
+            - A função que recebe um endereço para uma lista, conta a quantidade de dígitos e retorna este valor.
+        int primalidade(int n)
+            - A função recebe um número e verifica se ele é primo.
+        int deslocaEsquerda(Numprimo * a)
+            - Função que recebe um endereço de uma cabeça de lista como parâmetro e desloca um dígito para a esquerda equivalente a uma divisão por dez.
+        int ePar(Numprimo * a)
+            - A função que recebe um endereço de lista verifica se o conteúdo desta é par.
+        void geraSeed()
+            - A função cria uma seed para gerar número aleatório.
+        void geraLista(Numprimo *head, int numeros)
+            - A função recebe um endereço de cabeça de lista e os números para inserir nesta lista.
+        void printLista(Numprimo *head)
+            - A função que recebe um endereço de cabeça de uma lista e escreve o seu conteúdo.
+        void insereLista(Numprimo *head, int num)
+            - A função que recebe um endereço de cabeça de lista e um número, inserindo-o na lista.
+        void pedeEmprestado(Numprimo * a)
+            - Função utilizada na subtracao pede emprestado um numero de uma casa, balanceando o valor na casa anterior.
+        void deslocaDireita(Numprimo * a)
+            - Função que recece um endereço de lista como parâmetro e se o número for diferente de zero, adiciona um digito zero no final do número.
+        int numMaior(Numprimo *head1, Numprimo *head2)
+            - Função que recebe dois endereços de cabeças de listas e retorna a que contém maior valor.
+        void limpaZero(Numprimo *head)
+            - A função que recebe o endereço da cabeça de uma lista e limpa os zeros da subtração.
+        int numIgual(Numprimo *head1, Numprimo *head2)
+            - A função que recebe o endereço para duas cabeças de listas e compara dígito a dígito se eles são iguais
+        void removeNumero(Numprimo * vitima)
+            - A função que recebe um endereço para um número e deleta-o.
+        void desalocaLista(Numprimo * lst)
+            - A função que recebe um endereço para uma lista e desaloca esta.
+        Numprimo * criaLista(int valor)
+            - A função cria uma lista.
+        Numprimo *copiaNum(Numprimo *head)
+            - A função que recebe um endereço de cabeça de lista e copia este conteúdo numa nova lista.
+        Numprimo *geraPrimoGrande()
+            - A função gera um número primo grande.
+        Numprimo * copia(Numprimo * a)
+            - A função que recebe um endereço de uma lista e retorna o mesmo conteúdo num novo endereço.
+
+
+        Numprimo * soma(Numprimo *head1, Numprimo *head2)
+            - A função que recebe dois endereços para cabeças de listas retorna a soma do conteúdo dessas listas.
+        Numprimo * maior(Numprimo * a, Numprimo * b)
+            - A função que recebe dois endereços de listas e retorna a que possui maior valor.
+        Numprimo * subtrai(Numprimo * a, Numprimo * b)
+            - A função que recebe dois endereços de listas e retorna a subtração entre os seus valores.
+        Numprimo * multiplica(Numprimo *head1, Numprimo *head2)
+            - A função que recebe dois endereços de cabeças de listas e retorna o valor da multiplicação dos seus conteúdos.
+        Numprimo * exponenciacao(Numprimo * a, Numprimo * b)
+            - A função que recebe dois endereços de listas
+        Resultado *divide(Numprimo *head1, Numprimo *head2)
+            - A função que recebe dois endereços para cabeças de listas e retorna a divisão entre eles.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
