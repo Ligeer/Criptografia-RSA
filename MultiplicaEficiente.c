@@ -1,108 +1,108 @@
 /**
 *** Universidade Federal de Santa Catarina
-*** Exercício programa da disciplina de Análise e Projeto de Algoritmos 2016/1
+*** ExercÃ­cio programa da disciplina de AnÃ¡lise e Projeto de Algoritmos 2016/1
 *** Alunos: Ale Chaito (14205353) Christian Roger Gaio (14202477) e Luan Rodrigues Silva (14209239)
-*** Professor: Álvaro Pereira Franco Junio
+*** Professor: Ãlvaro Pereira Franco Junio
 
 
     Esquema de Criptografia RSA
 
-        Esta lista de exercícios trata de números inteiros na base 10 com muitos dígitos
-            (digamos 500 dígitos). Você pode escolher a estrutura de dados que quiser
-            para armazenar cada dígito de um número. Lembre que um número inteiro pode
+        Esta lista de exercÃ­cios trata de nÃºmeros inteiros na base 10 com muitos dÃ­gitos
+            (digamos 500 dÃ­gitos). VocÃª pode escolher a estrutura de dados que quiser
+            para armazenar cada dÃ­gito de um nÃºmero. Lembre que um nÃºmero inteiro pode
             ser negativo e assim, este caso deve ser tratado.
 
-        Aritmética básica:
+        AritmÃ©tica bÃ¡sica:
             - Soma
-            - Subtração
-            - Multiplicação
-            - Exponenciação
-            - Divisão
+            - SubtraÃ§Ã£o
+            - MultiplicaÃ§Ã£o
+            - ExponenciaÃ§Ã£o
+            - DivisÃ£o
 
-        Aritmética modular:
+        AritmÃ©tica modular:
             - Soma modular
-            - Subtração modular
-            - Multiplicação modular
-            - Exponenciação modular
-            - Divisão modular
+            - SubtraÃ§Ã£o modular
+            - MultiplicaÃ§Ã£o modular
+            - ExponenciaÃ§Ã£o modular
+            - DivisÃ£o modular
 
         Criptografia RSA:
-            - Implemente um algoritmo probabilístico que testa a primalidade de um número
+            - Implemente um algoritmo probabilÃ­stico que testa a primalidade de um nÃºmero
             inteiro, e erra com probabilidade 1/2^k, com k >= 1
-            - Implemente um algoritmo que gera números primos com n dígitos (n <= 200).
-            o tempo de execução médio desse algorítmo deve ser O(n^4).
-            - Implemente o esquema de criptografia RSA. Você precisa gerar uma única vez
-            as chaves pública e privada. A partir daí um texto qualquer deve ser criptografado
-            através do esquema RSA. Para a correção deste exercício, além da implementação,
-            divulguem as chaves pública e privadas geradas.
+            - Implemente um algoritmo que gera nÃºmeros primos com n dÃ­gitos (n <= 200).
+            o tempo de execuÃ§Ã£o mÃ©dio desse algorÃ­tmo deve ser O(n^4).
+            - Implemente o esquema de criptografia RSA. VocÃª precisa gerar uma Ãºnica vez
+            as chaves pÃºblica e privada. A partir daÃ­ um texto qualquer deve ser criptografado
+            atravÃ©s do esquema RSA. Para a correÃ§Ã£o deste exercÃ­cio, alÃ©m da implementaÃ§Ã£o,
+            divulguem as chaves pÃºblica e privadas geradas.
 
 
 
-    Descrição dos tipos de dados:
+    DescriÃ§Ã£o dos tipos de dados:
 
-        Numprimo - essa estrutura armazena um numero inteiro que equivale a um dígito ou o sinal
-        do número, possui um ponteiro que aponta para uma struct anterior e outro para o próximo.
+        Numprimo - essa estrutura armazena um numero inteiro que equivale a um dÃ­gito ou o sinal
+        do nÃºmero, possui um ponteiro que aponta para uma struct anterior e outro para o prÃ³ximo.
 
-        Resultado - possui dois ponteiros para Numprimo, um representa o quociente de uma divisão
+        Resultado - possui dois ponteiros para Numprimo, um representa o quociente de uma divisÃ£o
         e o outro representa o resto.
 
 
-    Descrição das funções:
+    DescriÃ§Ã£o das funÃ§Ãµes:
 
         int geraNumeroMax(int n)
-            - A função gera um algaristmo aleatório para ser inserido na lista.
+            - A funÃ§Ã£o gera um algaristmo aleatÃ³rio para ser inserido na lista.
         int numDigitos(Numprimo * a)
-            - A função que recebe um endereço para uma lista, conta a quantidade de dígitos e retorna este valor.
+            - A funÃ§Ã£o que recebe um endereÃ§o para uma lista, conta a quantidade de dÃ­gitos e retorna este valor.
         int primalidade(int n)
-            - A função recebe um número e verifica se ele é primo.
+            - A funÃ§Ã£o recebe um nÃºmero e verifica se ele Ã© primo.
         int deslocaEsquerda(Numprimo * a)
-            - Função que recebe um endereço de uma cabeça de lista como parâmetro e desloca um dígito para a esquerda equivalente a uma divisão por dez.
+            - FunÃ§Ã£o que recebe um endereÃ§o de uma cabeÃ§a de lista como parÃ¢metro e desloca um dÃ­gito para a esquerda equivalente a uma divisÃ£o por dez.
         int ePar(Numprimo * a)
-            - A função que recebe um endereço de lista verifica se o conteúdo desta é par.
+            - A funÃ§Ã£o que recebe um endereÃ§o de lista verifica se o conteÃºdo desta Ã© par.
         void geraSeed()
-            - A função cria uma seed para gerar número aleatório.
+            - A funÃ§Ã£o cria uma seed para gerar nÃºmero aleatÃ³rio.
         void geraLista(Numprimo *head, int numeros)
-            - A função recebe um endereço de cabeça de lista e os números para inserir nesta lista.
+            - A funÃ§Ã£o recebe um endereÃ§o de cabeÃ§a de lista e os nÃºmeros para inserir nesta lista.
         void printLista(Numprimo *head)
-            - A função que recebe um endereço de cabeça de uma lista e escreve o seu conteúdo.
+            - A funÃ§Ã£o que recebe um endereÃ§o de cabeÃ§a de uma lista e escreve o seu conteÃºdo.
         void insereLista(Numprimo *head, int num)
-            - A função que recebe um endereço de cabeça de lista e um número, inserindo-o na lista.
+            - A funÃ§Ã£o que recebe um endereÃ§o de cabeÃ§a de lista e um nÃºmero, inserindo-o na lista.
         void pedeEmprestado(Numprimo * a)
-            - Função utilizada na subtracao pede emprestado um numero de uma casa, balanceando o valor na casa anterior.
+            - FunÃ§Ã£o utilizada na subtracao pede emprestado um numero de uma casa, balanceando o valor na casa anterior.
         void deslocaDireita(Numprimo * a)
-            - Função que recece um endereço de lista como parâmetro e se o número for diferente de zero, adiciona um digito zero no final do número.
+            - FunÃ§Ã£o que recece um endereÃ§o de lista como parÃ¢metro e se o nÃºmero for diferente de zero, adiciona um digito zero no final do nÃºmero.
         int numMaior(Numprimo *head1, Numprimo *head2)
-            - Função que recebe dois endereços de cabeças de listas e retorna a que contém maior valor.
+            - FunÃ§Ã£o que recebe dois endereÃ§os de cabeÃ§as de listas e retorna a que contÃ©m maior valor.
         void limpaZero(Numprimo *head)
-            - A função que recebe o endereço da cabeça de uma lista e limpa os zeros da subtração.
+            - A funÃ§Ã£o que recebe o endereÃ§o da cabeÃ§a de uma lista e limpa os zeros da subtraÃ§Ã£o.
         int numIgual(Numprimo *head1, Numprimo *head2)
-            - A função que recebe o endereço para duas cabeças de listas e compara dígito a dígito se eles são iguais
+            - A funÃ§Ã£o que recebe o endereÃ§o para duas cabeÃ§as de listas e compara dÃ­gito a dÃ­gito se eles sÃ£o iguais
         void removeNumero(Numprimo * vitima)
-            - A função que recebe um endereço para um número e deleta-o.
+            - A funÃ§Ã£o que recebe um endereÃ§o para um nÃºmero e deleta-o.
         void desalocaLista(Numprimo * lst)
-            - A função que recebe um endereço para uma lista e desaloca esta.
+            - A funÃ§Ã£o que recebe um endereÃ§o para uma lista e desaloca esta.
         Numprimo * criaLista(int valor)
-            - A função cria uma lista.
+            - A funÃ§Ã£o cria uma lista.
         Numprimo *copiaNum(Numprimo *head)
-            - A função que recebe um endereço de cabeça de lista e copia este conteúdo numa nova lista.
+            - A funÃ§Ã£o que recebe um endereÃ§o de cabeÃ§a de lista e copia este conteÃºdo numa nova lista.
         Numprimo *geraPrimoGrande()
-            - A função gera um número primo grande.
+            - A funÃ§Ã£o gera um nÃºmero primo grande.
         Numprimo * copia(Numprimo * a)
-            - A função que recebe um endereço de uma lista e retorna o mesmo conteúdo num novo endereço.
+            - A funÃ§Ã£o que recebe um endereÃ§o de uma lista e retorna o mesmo conteÃºdo num novo endereÃ§o.
 
 
         Numprimo * soma(Numprimo *head1, Numprimo *head2)
-            - A função que recebe dois endereços para cabeças de listas retorna a soma do conteúdo dessas listas.
+            - A funÃ§Ã£o que recebe dois endereÃ§os para cabeÃ§as de listas retorna a soma do conteÃºdo dessas listas.
         Numprimo * maior(Numprimo * a, Numprimo * b)
-            - A função que recebe dois endereços de listas e retorna a que possui maior valor.
+            - A funÃ§Ã£o que recebe dois endereÃ§os de listas e retorna a que possui maior valor.
         Numprimo * subtrai(Numprimo * a, Numprimo * b)
-            - A função que recebe dois endereços de listas e retorna a subtração entre os seus valores.
+            - A funÃ§Ã£o que recebe dois endereÃ§os de listas e retorna a subtraÃ§Ã£o entre os seus valores.
         Numprimo * multiplica(Numprimo *head1, Numprimo *head2)
-            - A função que recebe dois endereços de cabeças de listas e retorna o valor da multiplicação dos seus conteúdos.
+            - A funÃ§Ã£o que recebe dois endereÃ§os de cabeÃ§as de listas e retorna o valor da multiplicaÃ§Ã£o dos seus conteÃºdos.
         Numprimo * exponenciacao(Numprimo * a, Numprimo * b)
-            - A função que recebe dois endereços de listas
+            - A funÃ§Ã£o que recebe dois endereÃ§os de listas
         Resultado *divide(Numprimo *head1, Numprimo *head2)
-            - A função que recebe dois endereços para cabeças de listas e retorna a divisão entre eles.
+            - A funÃ§Ã£o que recebe dois endereÃ§os para cabeÃ§as de listas e retorna a divisÃ£o entre eles.
 */
 #include <inttypes.h>
 #include <stdio.h>
@@ -124,7 +124,7 @@ struct divisao {
 typedef struct digito Numero;
 typedef struct divisao Divisao;
 
-//FUNÇÕES
+//FUNÃ‡Ã•ES
 int geraNumeroMax(int n);
 int numDigitos(Numero * a);
 int primalidade(int n);
@@ -148,7 +148,7 @@ int numIgual(Numero *head1, Numero *head2);
 int numMaior(Numero *head1, Numero *head2);
 Numero * copiaNum(Numero *head);
 
-//OPERAÇÕES
+//OPERAÃ‡Ã•ES
 Numero * soma(Numero *head1, Numero *head2);
 Numero * maior(Numero * a, Numero * b);
 Numero * subtrai(Numero * a, Numero * b);
@@ -156,7 +156,7 @@ Numero * multiplica(Numero *head1, Numero *head2);
 Numero * exponenciacao(Numero * a, Numero * b);
 Divisao *divide(Numero *head1, Numero *head2);
 
-// OPERAÇÕES MODULARES
+// OPERAÃ‡Ã•ES MODULARES
 Numero * somaModular(Numero * a, Numero * b, Numero * n);
 Numero * subtracaoModular(Numero * a, Numero * b, Numero * n);
 
@@ -317,7 +317,7 @@ Numero * multiplica(Numero * a, Numero * b) {
 }
 
 // recebe n = quantia de zeros, digito = valor total da mult de n1*n2
-// @TODO: poder reaproveitar parte da funcao deslocaDireita que faz a mesma coisa só que uma vez
+// @TODO: poder reaproveitar parte da funcao deslocaDireita que faz a mesma coisa sÃ³ que uma vez
 void insereZeros(Numero *head, int n, int digito) {
     int auxNum;
     while(n != 0) { //Inserindo primeiros todos os 0
@@ -331,7 +331,7 @@ void insereZeros(Numero *head, int n, int digito) {
     insereLista(head, digito);
 }
 
-// Pode dale que o algoritmo tá zika agora
+// Pode dale que o algoritmo tÃ¡ zika agora
 Numero * exponenciacao(Numero * a, Numero * b) {
     Numero * c, * aux, * um;
     Numero *tmp = copiaNum(a);
@@ -342,7 +342,7 @@ Numero * exponenciacao(Numero * a, Numero * b) {
                 c = criaLista(1);
                 insereLista(c, 1);
                 return c;
-            case 1: // retorna uma cópia do próprio a
+            case 1: // retorna uma cÃ³pia do prÃ³prio a
                 return tmp;
             case 2: // retorna multiplica(a, a);
                 return multiplica(a, tmp);
@@ -364,34 +364,34 @@ Numero * exponenciacao(Numero * a, Numero * b) {
     return c;
 }
 
-// Recebe um Numero e retorna verdadeiro se se o resto da divisao por 2 é zero do último dígito
+// Recebe um Numero e retorna verdadeiro se se o resto da divisao por 2 Ã© zero do Ãºltimo dÃ­gito
 int ePar(Numero * a) {
     return a->ante->num  % 2 == 0 ? 1 : 0;
 }
 
-// Recebe um Numero a e retorna Numero igual com outro endereço
+// Recebe um Numero a e retorna Numero igual com outro endereÃ§o
 Numero * copia(Numero * a) {
 
     Numero * nova, * aux;
 
     aux = a->ante;
-    nova = criaLista(a->num); // cria nova cabeça igual a cabeça de a
+    nova = criaLista(a->num); // cria nova cabeÃ§a igual a cabeÃ§a de a
 
-    while(aux != a) { // percorre do final até o começo
+    while(aux != a) { // percorre do final atÃ© o comeÃ§o
         insereLista(nova, aux->num);
         aux = aux->ante;
     }
-    return aux; // devolve a cabeça do numero copiado
+    return aux; // devolve a cabeÃ§a do numero copiado
 }
 
-// Desloca um digito para a esquerda do número, divisão inteira por 10
+// Desloca um digito para a esquerda do nÃºmero, divisÃ£o inteira por 10
 int deslocaEsquerda(Numero * a) {
     Numero * aux;
     int numero;
 
     numero = a->ante->num;
 
-    if(a->prox != a) { // fica  a critério deixar o número 0 ou somente a cabeça para representar um numero vazio
+    if(a->prox != a) { // fica  a critÃ©rio deixar o nÃºmero 0 ou somente a cabeÃ§a para representar um numero vazio
         aux = a->ante;
         aux->ante->prox = a;
         a->ante = aux->ante;
@@ -406,10 +406,10 @@ int deslocaEsquerda(Numero * a) {
 
 
 
-// Desloca um digito para a direita do número, multiplicação por 10
+// Desloca um digito para a direita do nÃºmero, multiplicaÃ§Ã£o por 10
 void deslocaDireita(Numero * a) {
-    if(a->prox->num != 0) { // se o número já é 0 nao adianta tentar colocar outro na frente
-        insereLista(a->ante, 0); // finge que o elemento anterior a cabeça é a cabeça e faz a inserção nela
+    if(a->prox->num != 0) { // se o nÃºmero jÃ¡ Ã© 0 nao adianta tentar colocar outro na frente
+        insereLista(a->ante, 0); // finge que o elemento anterior a cabeÃ§a Ã© a cabeÃ§a e faz a inserÃ§Ã£o nela
     }
 }
 
@@ -442,7 +442,7 @@ Numero * soma(Numero *head1, Numero *head2) {
             insereLista(soma, total); //INSERE 0 NA SOMA
         }
         else {
-            carry = 0; //ZERA O CARRY PORQUE JÁ FOI ADICIONADO NA SOMA E NAO EXCEDEU 10
+            carry = 0; //ZERA O CARRY PORQUE JÃ FOI ADICIONADO NA SOMA E NAO EXCEDEU 10
             insereLista(soma, total); //INSERE O TOTAL
         }
         if (headaux1 != head1) {
@@ -459,7 +459,7 @@ Numero * soma(Numero *head1, Numero *head2) {
     return soma;
 }
 
-/* Recebe dois Numprimos e retorna o endereço do maior */
+/* Recebe dois Numprimos e retorna o endereÃ§o do maior */
 Numero * maior(Numero * a, Numero * b) {
     Numero * aux1, * aux2;
 
@@ -468,7 +468,7 @@ Numero * maior(Numero * a, Numero * b) {
         return a->num == 1 ? a : b;
     }
 
-    // é maior o que tem mais digitos já que nao armazenamos zeros
+    // Ã© maior o que tem mais digitos jÃ¡ que nao armazenamos zeros
 
     // tratar se ambos forem negativos
     if(numDigitos(a) > numDigitos(b)) {
@@ -481,7 +481,7 @@ Numero * maior(Numero * a, Numero * b) {
     aux1 = a->prox;
     aux2 = b->prox;
 
-    while(aux1->prox != a) { // só entra no looping se possui mesma quantidade de digitos
+    while(aux1->prox != a) { // sÃ³ entra no looping se possui mesma quantidade de digitos
         if(aux1->num > aux2->num) {
             return a;
         }
@@ -495,7 +495,7 @@ Numero * maior(Numero * a, Numero * b) {
 }
 
 /* Recebe um ponteiro para um Numero e conta a quantidades de
-dígitos doo Numero
+dÃ­gitos doo Numero
  */
 int numDigitos(Numero * a) {
     Numero * aux;
@@ -515,10 +515,10 @@ Numero * subtrai(Numero * a, Numero * b) {
     int subtracao;
 
     // se b > a entao o algoritmo nao funciona, entao mudamos
-    // o sinal do número e chamamos a funcao com os argumentos invertidos
+    // o sinal do nÃºmero e chamamos a funcao com os argumentos invertidos
     if(maior(a, b) == b) {
         c = subtrai(b, a);
-        c->num *= -1; // negativa o resultado, já que b > a
+        c->num *= -1; // negativa o resultado, jÃ¡ que b > a
         return c;
     }
 
@@ -530,14 +530,14 @@ Numero * subtrai(Numero * a, Numero * b) {
         subtracao = 0;
 
         if(aux1->num - aux2->num < 0) {
-            pedeEmprestado(aux1); // pedimos emprestado para os dígitos anteriores
-            subtracao = 10 + aux1->num - aux2->num ; // subtração feita com o empréstimo
+            pedeEmprestado(aux1); // pedimos emprestado para os dÃ­gitos anteriores
+            subtracao = 10 + aux1->num - aux2->num ; // subtraÃ§Ã£o feita com o emprÃ©stimo
         } else {
-            subtracao = aux1->num - aux2->num; // não precisa fazer o empréstimo, subtração normal
+            subtracao = aux1->num - aux2->num; // nÃ£o precisa fazer o emprÃ©stimo, subtraÃ§Ã£o normal
         }
         insereLista(c, subtracao); // insere na lista o valor subtraido
 
-        // os dois ponteiros percorrerão para a esquerda até encontrar a cabeça da lista
+        // os dois ponteiros percorrerÃ£o para a esquerda atÃ© encontrar a cabeÃ§a da lista
         if(aux1 != a) {
             aux1 = aux1->ante;
         }
@@ -547,7 +547,7 @@ Numero * subtrai(Numero * a, Numero * b) {
 
     }
 
-    //agora uma das duas listas chegou na cabeça, a operação é só o próprio número
+    //agora uma das duas listas chegou na cabeÃ§a, a operaÃ§Ã£o Ã© sÃ³ o prÃ³prio nÃºmero
     while(aux1 != a) {
         insereLista(c, aux1->num);
         aux1 = aux1->ante;
@@ -557,11 +557,11 @@ Numero * subtrai(Numero * a, Numero * b) {
         insereLista(c, aux2->num);
         aux2 = aux2->ante;
     }
-    limpaZero(c); //Estava gerando zeros ao começo do numero na saida
+    limpaZero(c); //Estava gerando zeros ao comeÃ§o do numero na saida
     return c;
 }
 
-//Limpa zero do inicio da subtração
+//Limpa zero do inicio da subtraÃ§Ã£o
 void limpaZero(Numero *head) {
     Numero *exclude;
     while(head->prox->num == 0) {
@@ -584,9 +584,9 @@ Numero *copiaNum(Numero *head) {
 }
 
 
-//Função otimizada para comparar se o numero é maior comparando digito a digito
+//FunÃ§Ã£o otimizada para comparar se o numero Ã© maior comparando digito a digito
 int numMaior(Numero *head1, Numero *head2) {
-    //Numero 1 é maior que 2 somente se todos digitos de 1 é maior que 2
+    //Numero 1 Ã© maior que 2 somente se todos digitos de 1 Ã© maior que 2
     Numero *aux1 = head1->prox;
     Numero *aux2 = head2->prox;
     if(numDigitos(head1) > numDigitos(head2)) {
@@ -611,7 +611,7 @@ int numMaior(Numero *head1, Numero *head2) {
 int numIgual(Numero *head1, Numero *head2){
     Numero *aux1 = head1->prox;
     Numero *aux2 = head2->prox;
-    if(numDigitos(head1) != numDigitos(head2)){ //garantindo que a quantia de digito é igual
+    if(numDigitos(head1) != numDigitos(head2)){ //garantindo que a quantia de digito Ã© igual
         return 0;
     }
     while(aux1 != head1) {
@@ -624,7 +624,7 @@ int numIgual(Numero *head1, Numero *head2){
     return 1;
 }
 
-/* Função utilizada na subtracao de um Numero
+/* FunÃ§Ã£o utilizada na subtracao de um Numero
 pede emprestado um numero de uma casa, balanceando o valor
 na casa anterior
  */
@@ -659,10 +659,10 @@ void desalocaLista(Numero * lst) { // remove todos os elementos da lista
     }
 }
 
-void removeNumero(Numero * vitima) { // desaloca a memória da célula indicada
+void removeNumero(Numero * vitima) { // desaloca a memÃ³ria da cÃ©lula indicada
     Numero * aux;
 
-    if(vitima->prox == vitima) { // se a celula for a cabeça
+    if(vitima->prox == vitima) { // se a celula for a cabeÃ§a
         free(vitima); // desaloca vitima
     } else { // removemos um membro da lista duplamente encadeada
         aux = vitima->ante;
@@ -675,7 +675,7 @@ void removeNumero(Numero * vitima) { // desaloca a memória da célula indicada
 void insereLista(Numero *head, int num){
     Numero *novo;
     novo = (Numero*) malloc(sizeof(Numero));
-    novo->num = num; //acessa nova e bota o endereço da pessoa1 lá dentro;
+    novo->num = num; //acessa nova e bota o endereÃ§o da pessoa1 lÃ¡ dentro;
 
     if(head->prox == head) {
         novo->prox = head;
